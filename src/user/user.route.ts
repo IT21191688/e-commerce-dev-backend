@@ -29,7 +29,7 @@ UserRouter.get(
 );
 
 UserRouter.patch(
-  "/updateUser/:userId",
+  "/updateUser",
   authMiddleware.authorize([
     constants.USER.ROLES.ADMIN,
     constants.USER.ROLES.USER,

@@ -83,7 +83,7 @@ const EditUserDetails = async (req, res) => {
     if (!user) {
         throw new NotFoundError_1.default("User not found!");
     }
-    const userId = req.params.userId;
+    const userId = auth._id;
     const updatedDetails = req.body;
     const updatedUser = await user_service_1.default.editUserDetails(userId, updatedDetails);
     return (0, response_1.default)(res, true, http_status_codes_1.StatusCodes.OK, "Edit User successfully!", updatedUser);

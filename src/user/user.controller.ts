@@ -123,7 +123,7 @@ const EditUserDetails = async (req: Request, res: Response) => {
     throw new NotFoundError("User not found!");
   }
 
-  const userId = req.params.userId;
+  const userId = auth._id;
   const updatedDetails = req.body;
 
   const updatedUser = await userService.editUserDetails(userId, updatedDetails);

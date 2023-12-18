@@ -14,7 +14,7 @@ UserRouter.get("/profile", auth_middleware_1.default.authorize([
     constant_1.default.USER.ROLES.USER,
 ]), user_controller_1.GetUserProfile);
 UserRouter.get("/getAllUser", auth_middleware_1.default.authorize([constant_1.default.USER.ROLES.ADMIN]), user_controller_1.GetAllUsers);
-UserRouter.patch("/updateUser/:userId", auth_middleware_1.default.authorize([
+UserRouter.patch("/updateUser", auth_middleware_1.default.authorize([
     constant_1.default.USER.ROLES.ADMIN,
     constant_1.default.USER.ROLES.USER,
 ]), user_controller_1.EditUserDetails);
