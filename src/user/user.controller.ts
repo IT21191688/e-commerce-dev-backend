@@ -75,7 +75,11 @@ const RegisterUser = async (req: Request, res: Response) => {
 const GetUserProfile = async (req: Request, res: Response) => {
   const auth: any = req.auth;
 
+  //console.log(auth);
+
   const user = await userService.findById(auth._id);
+
+  //console.log(user + "====");
 
   if (!user) {
     throw new NotFoundError("User not found!");
@@ -90,4 +94,54 @@ const GetUserProfile = async (req: Request, res: Response) => {
   );
 };
 
-export { RegisterUser, GetUserProfile };
+const GetAllUsers = async (req: Request, res: Response) => {
+  const auth: any = req.auth;
+
+  const user = await userService.findById(auth._id);
+
+  if (!user) {
+    throw new NotFoundError("User not found!");
+  }
+
+  const users = await userService.getAllUsers();
+
+  return CustomResponse(
+    res,
+    true,
+    StatusCodes.OK,
+    "All Users fetched successfully!",
+    users
+  );
+};
+
+const EditUserDetails = async (req: Request, res: Response) => {
+  const auth: any = req.auth;
+
+  const user = await userService.findById(auth._id);
+
+  if (!user) {
+    throw new NotFoundError("User not found!");
+  }
+
+  const userId = req.params.userId;
+  const updatedDetails = req.body;
+
+  const updatedUser = await userService.editUserDetails(userId, updatedDetails);
+
+  return CustomResponse(
+    res,
+    true,
+    StatusCodes.OK,
+    "Edit User successfully!",
+    updatedUser
+  );
+};
+
+const ResetPassword = async (req: Request, res: Response) => {
+  const { email, newPassword } = req.body;
+
+  const updatedUser = await userService.resetPassword(email, newPassword);
+  // Handle response accordingly
+};
+
+export { RegisterUser, GetUserProfile, GetAllUsers, EditUserDetails };

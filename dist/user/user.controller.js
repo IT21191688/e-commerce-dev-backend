@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.GetUserProfile = exports.RegisterUser = void 0;
+exports.EditUserDetails = exports.GetAllUsers = exports.GetUserProfile = exports.RegisterUser = void 0;
 const user_util_1 = __importDefault(require("./user.util"));
 const user_service_1 = __importDefault(require("./user.service"));
 const user_model_1 = __importDefault(require("./user.model"));
@@ -58,10 +58,39 @@ const RegisterUser = async (req, res) => {
 exports.RegisterUser = RegisterUser;
 const GetUserProfile = async (req, res) => {
     const auth = req.auth;
+    //console.log(auth);
     const user = await user_service_1.default.findById(auth._id);
+    //console.log(user + "====");
     if (!user) {
         throw new NotFoundError_1.default("User not found!");
     }
     return (0, response_1.default)(res, true, http_status_codes_1.StatusCodes.OK, "Profile fetched successfully!", user);
 };
 exports.GetUserProfile = GetUserProfile;
+const GetAllUsers = async (req, res) => {
+    const auth = req.auth;
+    const user = await user_service_1.default.findById(auth._id);
+    if (!user) {
+        throw new NotFoundError_1.default("User not found!");
+    }
+    const users = await user_service_1.default.getAllUsers();
+    return (0, response_1.default)(res, true, http_status_codes_1.StatusCodes.OK, "All Users fetched successfully!", users);
+};
+exports.GetAllUsers = GetAllUsers;
+const EditUserDetails = async (req, res) => {
+    const auth = req.auth;
+    const user = await user_service_1.default.findById(auth._id);
+    if (!user) {
+        throw new NotFoundError_1.default("User not found!");
+    }
+    const userId = req.params.userId;
+    const updatedDetails = req.body;
+    const updatedUser = await user_service_1.default.editUserDetails(userId, updatedDetails);
+    return (0, response_1.default)(res, true, http_status_codes_1.StatusCodes.OK, "Edit User successfully!", updatedUser);
+};
+exports.EditUserDetails = EditUserDetails;
+const ResetPassword = async (req, res) => {
+    const { email, newPassword } = req.body;
+    const updatedUser = await user_service_1.default.resetPassword(email, newPassword);
+    // Handle response accordingly
+};

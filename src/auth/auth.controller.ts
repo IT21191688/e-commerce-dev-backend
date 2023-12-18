@@ -6,6 +6,7 @@ import { StatusCodes } from "http-status-codes";
 import CustomResponse from "../util/response";
 import NotFoundError from "../error/error.classes/NotFoundError";
 import BadRequestError from "../error/error.classes/BadRequestError";
+
 const UserLogin = async (req: Request, res: Response) => {
   const body: any = req.body;
 
