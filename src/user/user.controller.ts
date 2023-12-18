@@ -7,6 +7,9 @@ import { StatusCodes } from "http-status-codes";
 import { startSession } from "mongoose";
 import CustomResponse from "../util/response";
 
+import { sendEmail } from "../util/emailServer";
+import emailService from "../util/email-templates/email.templates";
+
 // Import custom errors
 import NotFoundError from "../error/error.classes/NotFoundError";
 import BadRequestError from "../error/error.classes/BadRequestError";
@@ -24,11 +27,6 @@ const RegisterUser = async (req: Request, res: Response) => {
     throw new BadRequestError("User already exists!");
   }
 
-  let organization: any = null;
-  if (body.user.role == constants.USER.ROLES.ADMIN) {
-    user.organization = organization._id;
-  }
-
   const auth = new Auth();
   auth._id = user.email;
   auth.password = await userUtil.hashPassword(body.user.password);
@@ -42,6 +40,17 @@ const RegisterUser = async (req: Request, res: Response) => {
     session.startTransaction();
 
     createdUser = await userService.save(user, session);
+
+    if (createdUser != null) {
+      // Prepare and send email content
+      const subject = "Registe Success";
+      const htmlBody = emailService.UserRegisteredEmail({
+        fullName: createdUser.firstname + " " + createdUser.lastname,
+      });
+
+      // Send email to the student's email address
+      await sendEmail(user.email, subject, htmlBody, null);
+    }
 
     await userService.save(auth, session);
 
