@@ -18,49 +18,8 @@ const findByEmail = async (email) => {
 const findById = async (id) => {
     return await user_model_1.default.findById(id).populate("organization");
 };
-const findByOrganization = async (organization) => {
-    return await user_model_1.default.findOne({ organization: organization });
-};
-const findAllAppliedJobs = async (id) => {
-    return await user_model_1.default.findById(id)
-        .populate({
-        path: "appliedJobs",
-        populate: {
-            path: "organization",
-            select: "-createdAt -updatedAt -status",
-        },
-    })
-        .populate({
-        path: "appliedJobs",
-        populate: {
-            path: "type",
-            select: "-createdAt -updatedAt -status",
-        },
-    });
-};
-//find all saved jobs
-const findAllSavedJobs = async (id) => {
-    return await user_model_1.default.findById(id)
-        .populate({
-        path: "savedJobs",
-        populate: {
-            path: "organization",
-            select: "-createdAt -updatedAt -status",
-        },
-    })
-        .populate({
-        path: "savedJobs",
-        populate: {
-            path: "type",
-            select: "-createdAt -updatedAt -status",
-        },
-    });
-};
 exports.default = {
     save,
     findByEmail,
     findById,
-    findByOrganization,
-    findAllAppliedJobs,
-    findAllSavedJobs,
 };

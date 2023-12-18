@@ -18,8 +18,7 @@ const constant_1 = __importDefault(require("../constant"));
 const RegisterUser = async (req, res) => {
     const body = req.body;
     const user = new user_model_1.default(body.user);
-    console.log(user.email);
-    //check if user already exists
+    //console.log(user.email);
     const existingUser = await user_service_1.default.findByEmail(user.email);
     if (existingUser) {
         throw new BadRequestError_1.default("User already exists!");
@@ -28,26 +27,19 @@ const RegisterUser = async (req, res) => {
     if (body.user.role == constant_1.default.USER.ROLES.ADMIN) {
         user.organization = organization._id;
     }
-    //construct auth object
     const auth = new auth_model_1.default();
     auth._id = user.email;
     auth.password = await user_util_1.default.hashPassword(body.user.password);
     auth.user = user._id;
     let createdUser = null;
-    //start mongoose session
     const session = await (0, mongoose_1.startSession)();
     try {
-        //start transaction in session
         session.startTransaction();
-        //save user
         createdUser = await user_service_1.default.save(user, session);
-        //save auth
         await user_service_1.default.save(auth, session);
-        //commit transaction
         await session.commitTransaction();
     }
     catch (e) {
-        //abort transaction
         await session.abortTransaction();
         throw e;
     }

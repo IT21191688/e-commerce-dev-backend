@@ -16,9 +16,8 @@ const RegisterUser = async (req: Request, res: Response) => {
   const body: any = req.body;
   const user: any = new User(body.user);
 
-  console.log(user.email);
+  //console.log(user.email);
 
-  //check if user already exists
   const existingUser = await userService.findByEmail(user.email);
 
   if (existingUser) {
@@ -30,7 +29,6 @@ const RegisterUser = async (req: Request, res: Response) => {
     user.organization = organization._id;
   }
 
-  //construct auth object
   const auth = new Auth();
   auth._id = user.email;
   auth.password = await userUtil.hashPassword(body.user.password);
@@ -38,23 +36,17 @@ const RegisterUser = async (req: Request, res: Response) => {
 
   let createdUser = null;
 
-  //start mongoose session
   const session = await startSession();
 
   try {
-    //start transaction in session
     session.startTransaction();
 
-    //save user
     createdUser = await userService.save(user, session);
 
-    //save auth
     await userService.save(auth, session);
 
-    //commit transaction
     await session.commitTransaction();
   } catch (e) {
-    //abort transaction
     await session.abortTransaction();
     throw e;
   } finally {
