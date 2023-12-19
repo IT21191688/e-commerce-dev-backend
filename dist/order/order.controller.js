@@ -18,7 +18,7 @@ const CreateOrder = async (req, res) => {
     try {
         const auth = req.auth;
         const { productid, paymentid, quentity, totalprice, deliveryaddress, orderdate, orderstatus, } = req.body;
-        console.log(quentity);
+        // console.log(quentity);
         const user = await user_service_1.default.findById(auth._id);
         if (!user) {
             throw new NotFoundError_1.default("User not found!");
