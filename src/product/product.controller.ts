@@ -76,4 +76,45 @@ const FindAllProducts = async (req: Request, res: Response) => {
   }
 };
 
-export { CreateProduct, FindAllProducts };
+const EditProductDetails = async (req: Request, res: Response) => {
+  const auth: any = req.auth;
+  const productId = req.params.productId; // Assuming the product ID is passed in the URL parameters
+
+  try {
+    const product = await productService.findById(productId);
+
+    if (!product) {
+      throw new NotFoundError("Product not found!");
+    }
+
+    if (
+      !product.addedBy ||
+      product.addedBy.toString() !== auth._id.toString()
+    ) {
+      throw new ForbiddenError("You are not authorized to edit this product!");
+    }
+
+    const updatedDetails = req.body;
+    const updatedProduct = await productService.editProductDetails(
+      productId,
+      updatedDetails
+    );
+
+    CustomResponse(
+      res,
+      true,
+      StatusCodes.OK,
+      "Product updated successfully!",
+      updatedProduct
+    );
+  } catch (error: any) {
+    console.error(error);
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      success: false,
+      message: "Error updating product",
+      error: error.message,
+    });
+  }
+};
+
+export { CreateProduct, FindAllProducts, EditProductDetails };

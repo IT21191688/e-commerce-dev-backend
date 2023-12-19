@@ -23,9 +23,14 @@ const findById = (id: any) => {
   return Product.findOne({ _id: id });
 };
 
+const editProductDetails = async (id: string, updatedDetails: any) => {
+  return await Product.findByIdAndUpdate(id, updatedDetails, { new: true });
+};
+
 export default {
   save,
   findAllByAddedBy,
   findById,
   findAllProduct,
+  editProductDetails,
 };

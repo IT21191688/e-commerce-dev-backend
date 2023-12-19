@@ -23,9 +23,13 @@ const findAllByAddedBy = (addedBy) => {
 const findById = (id) => {
     return product_model_1.default.findOne({ _id: id });
 };
+const editProductDetails = async (id, updatedDetails) => {
+    return await product_model_1.default.findByIdAndUpdate(id, updatedDetails, { new: true });
+};
 exports.default = {
     save,
     findAllByAddedBy,
     findById,
     findAllProduct,
+    editProductDetails,
 };
