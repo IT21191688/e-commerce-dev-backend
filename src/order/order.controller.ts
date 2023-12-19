@@ -8,6 +8,9 @@ import CustomResponse from "../util/response";
 import NotFoundError from "../error/error.classes/NotFoundError";
 import ForbiddenError from "../error/error.classes/ForbiddenError";
 
+import { sendEmail } from "../util/emailServer";
+import emailService from "../util/email-templates/email.templates";
+
 const CreateOrder = async (req: Request, res: Response) => {
   try {
     const auth: any = req.auth;
@@ -44,6 +47,20 @@ const CreateOrder = async (req: Request, res: Response) => {
 
     // Save the new order
     const createdOrder = await orderService.save(newOrder, null);
+
+    if (createdOrder != null) {
+      // Prepare and send email content
+      const subject = "Order Success";
+      const htmlBody = emailService.OrderPlacedEmail({
+        fullName: user.firstname + " " + user.lastname,
+        orderId: createdOrder._id,
+        orderDate: createdOrder.orderdate,
+        totalAmount: createdOrder.totalprice,
+      });
+
+      // Send email to the user's email address
+      await sendEmail(user.email, subject, htmlBody, null);
+    }
 
     CustomResponse(
       res,

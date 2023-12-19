@@ -12,6 +12,8 @@ const order_service_1 = __importDefault(require("./order.service"));
 const response_1 = __importDefault(require("../util/response"));
 const NotFoundError_1 = __importDefault(require("../error/error.classes/NotFoundError"));
 const ForbiddenError_1 = __importDefault(require("../error/error.classes/ForbiddenError"));
+const emailServer_1 = require("../util/emailServer");
+const email_templates_1 = __importDefault(require("../util/email-templates/email.templates"));
 const CreateOrder = async (req, res) => {
     try {
         const auth = req.auth;
@@ -36,6 +38,18 @@ const CreateOrder = async (req, res) => {
         });
         // Save the new order
         const createdOrder = await order_service_1.default.save(newOrder, null);
+        if (createdOrder != null) {
+            // Prepare and send email content
+            const subject = "Order Success";
+            const htmlBody = email_templates_1.default.OrderPlacedEmail({
+                fullName: user.firstname + " " + user.lastname,
+                orderId: createdOrder._id,
+                orderDate: createdOrder.orderdate,
+                totalAmount: createdOrder.totalprice,
+            });
+            // Send email to the user's email address
+            await (0, emailServer_1.sendEmail)(user.email, subject, htmlBody, null);
+        }
         (0, response_1.default)(res, true, http_status_codes_1.StatusCodes.CREATED, "Order created successfully!", createdOrder);
     }
     catch (error) {
