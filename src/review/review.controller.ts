@@ -75,6 +75,8 @@ const EditReviewDetails = async (req: Request, res: Response) => {
       throw new NotFoundError("Review not found!");
     }
 
+    //console.log(review.userid + "  ====" + auth._id);
+
     if (review.userid.toString() !== auth._id.toString()) {
       throw new ForbiddenError("You are not authorized to edit this review!");
     }

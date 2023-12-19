@@ -8,10 +8,12 @@ const constant_1 = __importDefault(require("./constant"));
 const user_route_1 = __importDefault(require("./user/user.route"));
 const product_route_1 = __importDefault(require("./product/product.route"));
 const order_route_1 = __importDefault(require("./order/order.route"));
+const review_route_1 = __importDefault(require("./review/review.route"));
 const requestMappings = (app) => {
     app.use(constant_1.default.API.PREFIX.concat("/user"), user_route_1.default);
     app.use(constant_1.default.API.PREFIX.concat("/auth"), auth_route_1.default);
     app.use(constant_1.default.API.PREFIX.concat("/product"), product_route_1.default);
     app.use(constant_1.default.API.PREFIX.concat("/order"), order_route_1.default);
+    app.use(constant_1.default.API.PREFIX.concat("/review"), review_route_1.default);
 };
 exports.default = requestMappings;
