@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.EditProductDetails = exports.FindAllProducts = exports.CreateProduct = void 0;
+exports.DeleteProduct = exports.EditProductDetails = exports.FindAllProducts = exports.CreateProduct = void 0;
 const http_status_codes_1 = require("http-status-codes");
 const user_service_1 = __importDefault(require("../user/user.service"));
 const product_model_1 = __importDefault(require("./product.model"));
@@ -84,3 +84,33 @@ const EditProductDetails = async (req, res) => {
     }
 };
 exports.EditProductDetails = EditProductDetails;
+const DeleteProduct = async (req, res) => {
+    const auth = req.auth;
+    const productId = req.params.productId;
+    try {
+        const product = await product_service_1.default.findById(productId);
+        if (!product) {
+            throw new NotFoundError_1.default("Product not found!");
+        }
+        /*
+        if (
+          !product.addedBy ||
+          product.addedBy.toString() !== auth._id.toString()
+        ) {
+          throw new ForbiddenError("You are not authorized to edit this product!");
+        }
+    
+        */
+        await product_service_1.default.deleteProductById(productId);
+        (0, response_1.default)(res, true, http_status_codes_1.StatusCodes.OK, "Product deleted successfully!", null);
+    }
+    catch (error) {
+        console.error(error);
+        res.status(http_status_codes_1.StatusCodes.INTERNAL_SERVER_ERROR).json({
+            success: false,
+            message: "Error deleting product",
+            error: error.message,
+        });
+    }
+};
+exports.DeleteProduct = DeleteProduct;

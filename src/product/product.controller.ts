@@ -117,4 +117,43 @@ const EditProductDetails = async (req: Request, res: Response) => {
   }
 };
 
-export { CreateProduct, FindAllProducts, EditProductDetails };
+const DeleteProduct = async (req: Request, res: Response) => {
+  const auth: any = req.auth;
+  const productId = req.params.productId;
+
+  try {
+    const product = await productService.findById(productId);
+
+    if (!product) {
+      throw new NotFoundError("Product not found!");
+    }
+
+    /*
+    if (
+      !product.addedBy ||
+      product.addedBy.toString() !== auth._id.toString()
+    ) {
+      throw new ForbiddenError("You are not authorized to edit this product!");
+    }
+
+    */
+    await productService.deleteProductById(productId);
+
+    CustomResponse(
+      res,
+      true,
+      StatusCodes.OK,
+      "Product deleted successfully!",
+      null
+    );
+  } catch (error: any) {
+    console.error(error);
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      success: false,
+      message: "Error deleting product",
+      error: error.message,
+    });
+  }
+};
+
+export { CreateProduct, FindAllProducts, EditProductDetails, DeleteProduct };

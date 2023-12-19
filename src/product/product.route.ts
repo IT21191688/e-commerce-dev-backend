@@ -5,6 +5,7 @@ import {
   CreateProduct,
   FindAllProducts,
   EditProductDetails,
+  DeleteProduct,
 } from "./product.controller";
 import constants from "../constant";
 
@@ -29,6 +30,12 @@ ProductRouter.patch(
   "/updateProduct/:productId",
   authMiddleware.authorize([constants.USER.ROLES.ADMIN]),
   EditProductDetails
+);
+
+ProductRouter.delete(
+  "/deleteProduct/:productId",
+  authMiddleware.authorize([constants.USER.ROLES.ADMIN]),
+  DeleteProduct
 );
 
 /*

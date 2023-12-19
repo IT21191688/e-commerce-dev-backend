@@ -27,10 +27,15 @@ const editProductDetails = async (id: string, updatedDetails: any) => {
   return await Product.findByIdAndUpdate(id, updatedDetails, { new: true });
 };
 
+const deleteProductById = async (productId: string) => {
+  return await Product.findByIdAndDelete(productId);
+};
+
 export default {
   save,
   findAllByAddedBy,
   findById,
   findAllProduct,
   editProductDetails,
+  deleteProductById,
 };
