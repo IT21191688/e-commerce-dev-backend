@@ -1,7 +1,7 @@
 import { Router } from "express";
 import authMiddleware from "../auth/auth.middleware";
 
-import { CreateProduct } from "./product.controller";
+import { CreateProduct, FindAllProducts } from "./product.controller";
 import constants from "../constant";
 
 const ProductRouter = Router();
@@ -10,6 +10,12 @@ ProductRouter.post(
   "/createProduct",
   authMiddleware.authorize([constants.USER.ROLES.ADMIN]),
   CreateProduct
+);
+
+ProductRouter.get(
+  "/getAllProduct",
+  authMiddleware.authorize([constants.USER.ROLES.ADMIN]),
+  FindAllProducts
 );
 
 /*
@@ -22,11 +28,6 @@ UserRouter.get(
   GetUserProfile
 );
 
-UserRouter.get(
-  "/getAllUser",
-  authMiddleware.authorize([constants.USER.ROLES.ADMIN]),
-  GetAllUsers
-);
 
 UserRouter.patch(
   "/updateUser",

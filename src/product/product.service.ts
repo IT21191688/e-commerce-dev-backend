@@ -9,7 +9,7 @@ const save = async (product: any, session: any) => {
   }
 };
 
-const findAllAppointments = () => {
+const findAllProduct = () => {
   return Product.find({});
 };
 
@@ -27,5 +27,5 @@ export default {
   save,
   findAllByAddedBy,
   findById,
-  findAllAppointments,
+  findAllProduct,
 };

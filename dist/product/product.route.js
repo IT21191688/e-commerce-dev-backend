@@ -9,6 +9,7 @@ const product_controller_1 = require("./product.controller");
 const constant_1 = __importDefault(require("../constant"));
 const ProductRouter = (0, express_1.Router)();
 ProductRouter.post("/createProduct", auth_middleware_1.default.authorize([constant_1.default.USER.ROLES.ADMIN]), product_controller_1.CreateProduct);
+ProductRouter.get("/getAllProduct", auth_middleware_1.default.authorize([constant_1.default.USER.ROLES.ADMIN]), product_controller_1.FindAllProducts);
 /*
 UserRouter.get(
   "/profile",
@@ -19,11 +20,6 @@ UserRouter.get(
   GetUserProfile
 );
 
-UserRouter.get(
-  "/getAllUser",
-  authMiddleware.authorize([constants.USER.ROLES.ADMIN]),
-  GetAllUsers
-);
 
 UserRouter.patch(
   "/updateUser",

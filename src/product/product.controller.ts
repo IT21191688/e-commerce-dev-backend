@@ -55,4 +55,25 @@ const CreateProduct = async (req: Request, res: Response) => {
   }
 };
 
-export { CreateProduct };
+const FindAllProducts = async (req: Request, res: Response) => {
+  try {
+    const allProducts = await productService.findAllProduct();
+
+    CustomResponse(
+      res,
+      true,
+      StatusCodes.OK,
+      "All products retrieved successfully!",
+      allProducts
+    );
+  } catch (error: any) {
+    console.error(error);
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      success: false,
+      message: "Error retrieving products",
+      error: error.message,
+    });
+  }
+};
+
+export { CreateProduct, FindAllProducts };

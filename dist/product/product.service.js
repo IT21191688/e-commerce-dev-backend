@@ -12,7 +12,7 @@ const save = async (product, session) => {
         return await product.save();
     }
 };
-const findAllAppointments = () => {
+const findAllProduct = () => {
     return product_model_1.default.find({});
 };
 const findAllByAddedBy = (addedBy) => {
@@ -27,5 +27,5 @@ exports.default = {
     save,
     findAllByAddedBy,
     findById,
-    findAllAppointments,
+    findAllProduct,
 };
