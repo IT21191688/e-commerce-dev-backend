@@ -7,6 +7,11 @@ const PaymentSchema = new mongoose.Schema(
       ref: "Order",
       required: true,
     },
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
     paymentMethod: {
       type: String,
       required: true,

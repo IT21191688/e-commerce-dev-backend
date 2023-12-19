@@ -10,6 +10,11 @@ const PaymentSchema = new mongoose_1.default.Schema({
         ref: "Order",
         required: true,
     },
+    userId: {
+        type: mongoose_1.default.Schema.Types.ObjectId,
+        ref: "User",
+        required: true,
+    },
     paymentMethod: {
         type: String,
         required: true,
