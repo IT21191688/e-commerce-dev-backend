@@ -17,12 +17,14 @@ const CreateOrder = async (req: Request, res: Response) => {
     const {
       productid,
       paymentid,
-      quantity,
+      quentity,
       totalprice,
       deliveryaddress,
       orderdate,
       orderstatus,
     } = req.body;
+
+    // console.log(quentity);
 
     const user = await userService.findById(auth._id);
     if (!user) {
@@ -38,18 +40,16 @@ const CreateOrder = async (req: Request, res: Response) => {
       userid: auth._id,
       productid,
       paymentid,
-      quantity,
+      quentity,
       totalprice,
       deliveryaddress,
       orderdate,
       orderstatus,
     });
 
-    // Save the new order
     const createdOrder = await orderService.save(newOrder, null);
 
     if (createdOrder != null) {
-      // Prepare and send email content
       const subject = "Order Success";
       const htmlBody = emailService.OrderPlacedEmail({
         fullName: user.firstname + " " + user.lastname,
@@ -87,7 +87,6 @@ const FindAllOrders = async (req: Request, res: Response) => {
   }
 
   try {
-    // Fetch all orders
     const allOrders = await orderService.findAllOrders();
 
     CustomResponse(
@@ -190,9 +189,8 @@ const FindOneOrderById = async (req: Request, res: Response) => {
     throw new NotFoundError("User not found!");
   }
   try {
-    const orderId = req.params.orderId; // Assuming the order ID is passed in the URL parameters
+    const orderId = req.params.orderId;
 
-    // Fetch the order by orderId
     const order = await orderService.findById(orderId);
 
     if (!order) {
@@ -225,7 +223,7 @@ const FindAllOrdersByUserId = async (req: Request, res: Response) => {
   }
 
   try {
-    const userId = auth._id; // Assuming the user ID is passed in the URL parameters
+    const userId = auth._id;
 
     const orders = await orderService.findOrdersByUserId(userId);
 
@@ -252,4 +250,5 @@ export {
   EditOrderDetails,
   DeleteOrder,
   FindOneOrderById,
+  FindAllOrdersByUserId,
 };

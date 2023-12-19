@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.FindOneOrderById = exports.DeleteOrder = exports.EditOrderDetails = exports.FindAllOrders = exports.CreateOrder = void 0;
+exports.FindAllOrdersByUserId = exports.FindOneOrderById = exports.DeleteOrder = exports.EditOrderDetails = exports.FindAllOrders = exports.CreateOrder = void 0;
 const http_status_codes_1 = require("http-status-codes");
 const user_service_1 = __importDefault(require("../user/user.service"));
 const product_service_1 = __importDefault(require("../product/product.service"));
@@ -17,7 +17,8 @@ const email_templates_1 = __importDefault(require("../util/email-templates/email
 const CreateOrder = async (req, res) => {
     try {
         const auth = req.auth;
-        const { productid, paymentid, quantity, totalprice, deliveryaddress, orderdate, orderstatus, } = req.body;
+        const { productid, paymentid, quentity, totalprice, deliveryaddress, orderdate, orderstatus, } = req.body;
+        console.log(quentity);
         const user = await user_service_1.default.findById(auth._id);
         if (!user) {
             throw new NotFoundError_1.default("User not found!");
@@ -30,16 +31,14 @@ const CreateOrder = async (req, res) => {
             userid: auth._id,
             productid,
             paymentid,
-            quantity,
+            quentity,
             totalprice,
             deliveryaddress,
             orderdate,
             orderstatus,
         });
-        // Save the new order
         const createdOrder = await order_service_1.default.save(newOrder, null);
         if (createdOrder != null) {
-            // Prepare and send email content
             const subject = "Order Success";
             const htmlBody = email_templates_1.default.OrderPlacedEmail({
                 fullName: user.firstname + " " + user.lastname,
@@ -69,7 +68,6 @@ const FindAllOrders = async (req, res) => {
         throw new NotFoundError_1.default("User not found!");
     }
     try {
-        // Fetch all orders
         const allOrders = await order_service_1.default.findAllOrders();
         (0, response_1.default)(res, true, http_status_codes_1.StatusCodes.OK, "All orders retrieved successfully!", allOrders);
     }
@@ -139,8 +137,7 @@ const FindOneOrderById = async (req, res) => {
         throw new NotFoundError_1.default("User not found!");
     }
     try {
-        const orderId = req.params.orderId; // Assuming the order ID is passed in the URL parameters
-        // Fetch the order by orderId
+        const orderId = req.params.orderId;
         const order = await order_service_1.default.findById(orderId);
         if (!order) {
             throw new NotFoundError_1.default("Order not found!");
@@ -164,7 +161,7 @@ const FindAllOrdersByUserId = async (req, res) => {
         throw new NotFoundError_1.default("User not found!");
     }
     try {
-        const userId = auth._id; // Assuming the user ID is passed in the URL parameters
+        const userId = auth._id;
         const orders = await order_service_1.default.findOrdersByUserId(userId);
         (0, response_1.default)(res, true, http_status_codes_1.StatusCodes.OK, "All orders retrieved successfully!", orders);
     }
@@ -177,3 +174,4 @@ const FindAllOrdersByUserId = async (req, res) => {
         });
     }
 };
+exports.FindAllOrdersByUserId = FindAllOrdersByUserId;
