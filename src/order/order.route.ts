@@ -11,9 +11,9 @@ import {
 } from "./order.controller";
 import constants from "../constant";
 
-const ProductRouter = Router();
+const OrderRouter = Router();
 
-ProductRouter.post(
+OrderRouter.post(
   "/createOrder",
   authMiddleware.authorize([
     constants.USER.ROLES.ADMIN,
@@ -22,7 +22,7 @@ ProductRouter.post(
   CreateOrder
 );
 
-ProductRouter.get(
+OrderRouter.get(
   "/getAllOrders",
   authMiddleware.authorize([
     constants.USER.ROLES.ADMIN,
@@ -31,27 +31,34 @@ ProductRouter.get(
   FindAllOrders
 );
 
-/*
-ProductRouter.patch(
-  "/updateProduct/:productId",
+OrderRouter.patch(
+  "/updateOrder/:orderId",
   authMiddleware.authorize([constants.USER.ROLES.ADMIN]),
-  EditProductDetails
+  EditOrderDetails
 );
 
-ProductRouter.get(
-  "/getOneProduct/:productId",
+OrderRouter.get(
+  "/getOneOrder/:orderId",
   authMiddleware.authorize([
     constants.USER.ROLES.ADMIN,
     constants.USER.ROLES.USER,
   ]),
-  FindOneProductById
+  FindOneOrderById
 );
 
-ProductRouter.delete(
-  "/deleteProduct/:productId",
+OrderRouter.get(
+  "/getOrdersUser",
+  authMiddleware.authorize([
+    constants.USER.ROLES.ADMIN,
+    constants.USER.ROLES.USER,
+  ]),
+  FindAllOrdersByUserId
+);
+
+OrderRouter.delete(
+  "/deleteOrder/:orderId",
   authMiddleware.authorize([constants.USER.ROLES.ADMIN]),
-  DeleteProduct
+  DeleteOrder
 );
-*/
 
-export default ProductRouter;
+export default OrderRouter;
