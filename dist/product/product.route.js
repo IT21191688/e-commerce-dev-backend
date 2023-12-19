@@ -14,18 +14,9 @@ ProductRouter.get("/getAllProduct", auth_middleware_1.default.authorize([
     constant_1.default.USER.ROLES.USER,
 ]), product_controller_1.FindAllProducts);
 ProductRouter.patch("/updateProduct/:productId", auth_middleware_1.default.authorize([constant_1.default.USER.ROLES.ADMIN]), product_controller_1.EditProductDetails);
+ProductRouter.get("/getOneProduct/:productId", auth_middleware_1.default.authorize([
+    constant_1.default.USER.ROLES.ADMIN,
+    constant_1.default.USER.ROLES.USER,
+]), product_controller_1.FindOneProductById);
 ProductRouter.delete("/deleteProduct/:productId", auth_middleware_1.default.authorize([constant_1.default.USER.ROLES.ADMIN]), product_controller_1.DeleteProduct);
-/*
-UserRouter.get(
-  "/profile",
-  authMiddleware.authorize([
-    constants.USER.ROLES.ADMIN,
-    constants.USER.ROLES.USER,
-  ]),
-  GetUserProfile
-);
-
-
-
-*/
 exports.default = ProductRouter;

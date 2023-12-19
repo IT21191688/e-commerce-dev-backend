@@ -156,4 +156,41 @@ const DeleteProduct = async (req: Request, res: Response) => {
   }
 };
 
-export { CreateProduct, FindAllProducts, EditProductDetails, DeleteProduct };
+const FindOneProductById = async (req: Request, res: Response) => {
+  const auth: any = req.auth;
+  const productId = req.params.productId;
+
+  const user = await userService.findById(auth._id);
+  if (!user) throw new NotFoundError("User not found!");
+
+  try {
+    const product = await productService.findById(productId);
+
+    if (!product) {
+      throw new NotFoundError("Product not found!");
+    }
+
+    CustomResponse(
+      res,
+      true,
+      StatusCodes.OK,
+      "Product retrieved successfully!",
+      product
+    );
+  } catch (error: any) {
+    console.error(error);
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      success: false,
+      message: "Error retrieving product",
+      error: error.message,
+    });
+  }
+};
+
+export {
+  CreateProduct,
+  FindAllProducts,
+  EditProductDetails,
+  DeleteProduct,
+  FindOneProductById,
+};

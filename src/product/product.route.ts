@@ -6,6 +6,7 @@ import {
   FindAllProducts,
   EditProductDetails,
   DeleteProduct,
+  FindOneProductById,
 } from "./product.controller";
 import constants from "../constant";
 
@@ -32,23 +33,19 @@ ProductRouter.patch(
   EditProductDetails
 );
 
+ProductRouter.get(
+  "/getOneProduct/:productId",
+  authMiddleware.authorize([
+    constants.USER.ROLES.ADMIN,
+    constants.USER.ROLES.USER,
+  ]),
+  FindOneProductById
+);
+
 ProductRouter.delete(
   "/deleteProduct/:productId",
   authMiddleware.authorize([constants.USER.ROLES.ADMIN]),
   DeleteProduct
 );
 
-/*
-UserRouter.get(
-  "/profile",
-  authMiddleware.authorize([
-    constants.USER.ROLES.ADMIN,
-    constants.USER.ROLES.USER,
-  ]),
-  GetUserProfile
-);
-
-
-
-*/
 export default ProductRouter;

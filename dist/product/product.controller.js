@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.DeleteProduct = exports.EditProductDetails = exports.FindAllProducts = exports.CreateProduct = void 0;
+exports.FindOneProductById = exports.DeleteProduct = exports.EditProductDetails = exports.FindAllProducts = exports.CreateProduct = void 0;
 const http_status_codes_1 = require("http-status-codes");
 const user_service_1 = __importDefault(require("../user/user.service"));
 const product_model_1 = __importDefault(require("./product.model"));
@@ -114,3 +114,26 @@ const DeleteProduct = async (req, res) => {
     }
 };
 exports.DeleteProduct = DeleteProduct;
+const FindOneProductById = async (req, res) => {
+    const auth = req.auth;
+    const productId = req.params.productId;
+    const user = await user_service_1.default.findById(auth._id);
+    if (!user)
+        throw new NotFoundError_1.default("User not found!");
+    try {
+        const product = await product_service_1.default.findById(productId);
+        if (!product) {
+            throw new NotFoundError_1.default("Product not found!");
+        }
+        (0, response_1.default)(res, true, http_status_codes_1.StatusCodes.OK, "Product retrieved successfully!", product);
+    }
+    catch (error) {
+        console.error(error);
+        res.status(http_status_codes_1.StatusCodes.INTERNAL_SERVER_ERROR).json({
+            success: false,
+            message: "Error retrieving product",
+            error: error.message,
+        });
+    }
+};
+exports.FindOneProductById = FindOneProductById;
