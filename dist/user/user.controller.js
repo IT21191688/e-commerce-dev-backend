@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.EditUserDetails = exports.GetAllUsers = exports.GetUserProfile = exports.RegisterUser = void 0;
+exports.EditUserDetailsUserId = exports.EditUserDetails = exports.GetAllUsers = exports.GetUserProfile = exports.RegisterUser = void 0;
 const user_util_1 = __importDefault(require("./user.util"));
 const user_service_1 = __importDefault(require("./user.service"));
 const user_model_1 = __importDefault(require("./user.model"));
@@ -94,3 +94,16 @@ const ResetPassword = async (req, res) => {
     const updatedUser = await user_service_1.default.resetPassword(email, newPassword);
     // Handle response accordingly
 };
+const EditUserDetailsUserId = async (req, res) => {
+    const auth = req.auth;
+    const userId = req.params.userId;
+    console.log(userId);
+    const user = await user_service_1.default.findById(auth._id);
+    if (!user) {
+        throw new NotFoundError_1.default("User not found!");
+    }
+    const updatedDetails = req.body;
+    const updatedUser = await user_service_1.default.editUserDetails(userId, updatedDetails);
+    return (0, response_1.default)(res, true, http_status_codes_1.StatusCodes.OK, "Edit User successfully!", updatedUser);
+};
+exports.EditUserDetailsUserId = EditUserDetailsUserId;

@@ -6,6 +6,7 @@ import {
   GetUserProfile,
   GetAllUsers,
   EditUserDetails,
+  EditUserDetailsUserId,
 } from "./user.controller";
 import constants from "../constant";
 
@@ -36,4 +37,10 @@ UserRouter.patch(
   ]),
   EditUserDetails
 );
+
+UserRouter.post(
+  "/updateUser/:userId",
+  authMiddleware.authorize([constants.USER.ROLES.ADMIN]),
+  EditUserDetailsUserId
+);//
 export default UserRouter;

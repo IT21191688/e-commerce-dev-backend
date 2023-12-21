@@ -144,4 +144,35 @@ const ResetPassword = async (req: Request, res: Response) => {
   // Handle response accordingly
 };
 
-export { RegisterUser, GetUserProfile, GetAllUsers, EditUserDetails };
+const EditUserDetailsUserId = async (req: Request, res: Response) => {
+  const auth: any = req.auth;
+  const userId: any = req.params.userId;
+
+  console.log(userId);
+
+  const user = await userService.findById(auth._id);
+
+  if (!user) {
+    throw new NotFoundError("User not found!");
+  }
+
+  const updatedDetails = req.body;
+
+  const updatedUser = await userService.editUserDetails(userId, updatedDetails);
+
+  return CustomResponse(
+    res,
+    true,
+    StatusCodes.OK,
+    "Edit User successfully!",
+    updatedUser
+  );
+};
+
+export {
+  RegisterUser,
+  GetUserProfile,
+  GetAllUsers,
+  EditUserDetails,
+  EditUserDetailsUserId,
+};

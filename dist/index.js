@@ -14,7 +14,11 @@ const NotFoundError_1 = __importDefault(require("./error/error.classes/NotFoundE
 const mapping_1 = __importDefault(require("./mapping"));
 const app = (0, express_1.default)();
 dotenv_1.default.config();
-app.use((0, cors_1.default)());
+app.use((0, cors_1.default)({
+    origin: "http://localhost:5173",
+    methods: ["GET", "POST", "PATCH", "DELETE"], // Include the PATCH method here
+    optionsSuccessStatus: 200, // Some legacy browsers (IE11, various SmartTVs) choke on 204
+}));
 app.use(express_1.default.json());
 //api router Mappings
 (0, mapping_1.default)(app);

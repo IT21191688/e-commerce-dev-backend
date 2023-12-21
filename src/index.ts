@@ -11,7 +11,15 @@ import requestMappings from "./mapping";
 const app: Express = express();
 
 dotenv.config();
-app.use(cors());
+
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    methods: ["GET", "POST", "PATCH", "DELETE"], // Include the PATCH method here
+    optionsSuccessStatus: 200, // Some legacy browsers (IE11, various SmartTVs) choke on 204
+  })
+);
+
 app.use(express.json());
 
 //api router Mappings
