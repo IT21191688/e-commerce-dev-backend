@@ -41,8 +41,8 @@ const CreateProduct = async (req, res) => {
             uploadedObj = await common_service_1.default.uploadImageAndGetUri(file, constant_1.default.CLOUDINARY.FILE_NAME + "/product");
         }
         if (uploadedObj != null) {
-            newProduct.productimage = uploadedObj.toString();
-            //console.log(uploadedObj);
+            newProduct.productimage = uploadedObj.uri.toString();
+            console.log(uploadedObj.uri.toString());
         }
         createdProduct = await product_service_1.default.save(newProduct, null);
         (0, response_1.default)(res, true, http_status_codes_1.StatusCodes.CREATED, "Product created successfully!", createdProduct);

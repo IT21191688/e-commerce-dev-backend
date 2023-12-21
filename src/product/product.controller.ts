@@ -50,8 +50,8 @@ const CreateProduct = async (req: Request, res: Response) => {
     }
 
     if (uploadedObj != null) {
-      newProduct.productimage = uploadedObj.toString();
-      //console.log(uploadedObj);
+      newProduct.productimage = uploadedObj.uri.toString();
+      console.log(uploadedObj.uri.toString());
     }
 
     createdProduct = await productService.save(newProduct, null);
