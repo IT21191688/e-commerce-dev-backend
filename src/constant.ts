@@ -20,7 +20,7 @@ const constants = {
   },
 
   CLOUDINARY: {
-    FILE_NAME: "Dev_Link",
+    FILE_NAME: "E-commerce",
   },
 
   CATEGORYTYPES: {

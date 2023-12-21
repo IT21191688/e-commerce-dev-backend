@@ -19,7 +19,7 @@ const constants = {
         DELETED: 5,
     },
     CLOUDINARY: {
-        FILE_NAME: "Dev_Link",
+        FILE_NAME: "E-commerce",
     },
     CATEGORYTYPES: {
         NEWS: "news",

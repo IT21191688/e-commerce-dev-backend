@@ -10,10 +10,18 @@ const product_model_1 = __importDefault(require("./product.model"));
 const product_service_1 = __importDefault(require("./product.service"));
 const response_1 = __importDefault(require("../util/response"));
 const NotFoundError_1 = __importDefault(require("../error/error.classes/NotFoundError"));
+const constant_1 = __importDefault(require("../constant"));
+const BadRequestError_1 = __importDefault(require("../error/error.classes/BadRequestError"));
 const ForbiddenError_1 = __importDefault(require("../error/error.classes/ForbiddenError"));
+const common_service_1 = __importDefault(require("../common/common.service"));
 const CreateProduct = async (req, res) => {
     const body = req.body;
     const auth = req.auth;
+    let file = req.file;
+    if (!file) {
+        throw new BadRequestError_1.default("News image is required!");
+    }
+    console.log(body);
     let createdProduct = null;
     try {
         const user = await user_service_1.default.findById(auth._id);
@@ -25,10 +33,17 @@ const CreateProduct = async (req, res) => {
             productcategory: body.productcategory,
             productprice: body.productprice,
             productqty: body.productqty,
-            productimage: body.productimage,
             productstatus: body.productstatus,
             addedBy: auth._id,
         });
+        let uploadedObj = null;
+        if (file) {
+            uploadedObj = await common_service_1.default.uploadImageAndGetUri(file, constant_1.default.CLOUDINARY.FILE_NAME + "/product");
+        }
+        if (uploadedObj != null) {
+            newProduct.productimage = uploadedObj.toString();
+            //console.log(uploadedObj);
+        }
         createdProduct = await product_service_1.default.save(newProduct, null);
         (0, response_1.default)(res, true, http_status_codes_1.StatusCodes.CREATED, "Product created successfully!", createdProduct);
     }

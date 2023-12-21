@@ -1,5 +1,6 @@
 import { Router } from "express";
 import authMiddleware from "../auth/auth.middleware";
+import commonMiddleware from "../common/common.middleware";
 
 import {
   CreateProduct,
@@ -15,6 +16,7 @@ const ProductRouter = Router();
 ProductRouter.post(
   "/createProduct",
   authMiddleware.authorize([constants.USER.ROLES.ADMIN]),
+  commonMiddleware.multerUploader.single("productimage"),
   CreateProduct
 );
 

@@ -27,7 +27,7 @@ const ProductScema = new mongoose_1.default.Schema({
     },
     productimage: {
         type: String,
-        required: [true, "productimage is required!"],
+        required: [false, "productimage is required!"],
     },
     productstatus: {
         type: String,

@@ -13,10 +13,17 @@ import constants from "../constant";
 import { sendEmail } from "../util/emailServer";
 import BadRequestError from "../error/error.classes/BadRequestError";
 import ForbiddenError from "../error/error.classes/ForbiddenError";
+import commonService from "../common/common.service";
 
 const CreateProduct = async (req: Request, res: Response) => {
   const body = req.body;
   const auth = req.auth;
+  let file: any = req.file;
+
+  if (!file) {
+    throw new BadRequestError("News image is required!");
+  }
+  console.log(body);
 
   let createdProduct: any = null;
 
@@ -30,10 +37,22 @@ const CreateProduct = async (req: Request, res: Response) => {
       productcategory: body.productcategory,
       productprice: body.productprice,
       productqty: body.productqty,
-      productimage: body.productimage,
       productstatus: body.productstatus,
       addedBy: auth._id,
     });
+
+    let uploadedObj: any = null;
+    if (file) {
+      uploadedObj = await commonService.uploadImageAndGetUri(
+        file,
+        constants.CLOUDINARY.FILE_NAME + "/product"
+      );
+    }
+
+    if (uploadedObj != null) {
+      newProduct.productimage = uploadedObj.toString();
+      //console.log(uploadedObj);
+    }
 
     createdProduct = await productService.save(newProduct, null);
 

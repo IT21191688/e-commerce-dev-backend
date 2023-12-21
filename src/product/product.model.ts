@@ -30,7 +30,7 @@ const ProductScema = new mongoose.Schema(
 
     productimage: {
       type: String,
-      required: [true, "productimage is required!"],
+      required: [false, "productimage is required!"],
     },
 
     productstatus: {
