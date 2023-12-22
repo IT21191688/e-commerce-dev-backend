@@ -29,9 +29,10 @@ ProductRouter.get(
   FindAllProducts
 );
 
-ProductRouter.patch(
+ProductRouter.post(
   "/updateProduct/:productId",
   authMiddleware.authorize([constants.USER.ROLES.ADMIN]),
+  commonMiddleware.multerUploader.single("productimage"),
   EditProductDetails
 );
 

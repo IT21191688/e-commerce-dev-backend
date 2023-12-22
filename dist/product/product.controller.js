@@ -42,7 +42,7 @@ const CreateProduct = async (req, res) => {
         }
         if (uploadedObj != null) {
             newProduct.productimage = uploadedObj.uri.toString();
-            console.log(uploadedObj.uri.toString());
+            // console.log(uploadedObj.uri.toString());
         }
         createdProduct = await product_service_1.default.save(newProduct, null);
         (0, response_1.default)(res, true, http_status_codes_1.StatusCodes.CREATED, "Product created successfully!", createdProduct);

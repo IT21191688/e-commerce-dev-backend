@@ -14,7 +14,7 @@ ProductRouter.get("/getAllProduct", auth_middleware_1.default.authorize([
     constant_1.default.USER.ROLES.ADMIN,
     constant_1.default.USER.ROLES.USER,
 ]), product_controller_1.FindAllProducts);
-ProductRouter.patch("/updateProduct/:productId", auth_middleware_1.default.authorize([constant_1.default.USER.ROLES.ADMIN]), product_controller_1.EditProductDetails);
+ProductRouter.post("/updateProduct/:productId", auth_middleware_1.default.authorize([constant_1.default.USER.ROLES.ADMIN]), common_middleware_1.default.multerUploader.single("productimage"), product_controller_1.EditProductDetails);
 ProductRouter.get("/getOneProduct/:productId", auth_middleware_1.default.authorize([
     constant_1.default.USER.ROLES.ADMIN,
     constant_1.default.USER.ROLES.USER,
