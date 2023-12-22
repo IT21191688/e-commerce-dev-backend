@@ -13,12 +13,18 @@ const AddToCart = async (req: Request, res: Response) => {
     const body = req.body;
     const auth: any = req.auth;
 
+    const data = {
+      userid: auth._id,
+      productid: body.productid,
+      quantity: body.quantity,
+    };
+
     const user = await userService.findById(auth._id);
     if (!user) {
       throw new NotFoundError("User not found!");
     }
 
-    const addedCartItem = await cartService.addToCart(body);
+    const addedCartItem = await cartService.addToCart(data);
 
     CustomResponse(
       res,

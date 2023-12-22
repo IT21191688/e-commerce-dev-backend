@@ -13,11 +13,16 @@ const AddToCart = async (req, res) => {
     try {
         const body = req.body;
         const auth = req.auth;
+        const data = {
+            userid: auth._id,
+            productid: body.productid,
+            quantity: body.quantity,
+        };
         const user = await user_service_1.default.findById(auth._id);
         if (!user) {
             throw new NotFoundError_1.default("User not found!");
         }
-        const addedCartItem = await cart_service_1.default.addToCart(body);
+        const addedCartItem = await cart_service_1.default.addToCart(data);
         (0, response_1.default)(res, true, http_status_codes_1.StatusCodes.CREATED, "Item added to cart successfully!", { cartItem: addedCartItem });
     }
     catch (error) {
