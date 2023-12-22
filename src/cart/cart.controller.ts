@@ -47,9 +47,11 @@ const AddToCart = async (req: Request, res: Response) => {
 
 const GetCartItemsByUserId = async (req: Request, res: Response) => {
   try {
-    const userId = req.params.userId;
+    // const userId = req.params.userId;
 
     const auth: any = req.auth;
+
+    const userId = auth._id;
 
     const user = await userService.findById(auth._id);
     if (!user) {

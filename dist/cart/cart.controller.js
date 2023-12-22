@@ -33,8 +33,9 @@ const AddToCart = async (req, res) => {
 exports.AddToCart = AddToCart;
 const GetCartItemsByUserId = async (req, res) => {
     try {
-        const userId = req.params.userId;
+        // const userId = req.params.userId;
         const auth = req.auth;
+        const userId = auth._id;
         const user = await user_service_1.default.findById(auth._id);
         if (!user) {
             throw new NotFoundError_1.default("User not found!");

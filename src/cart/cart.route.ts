@@ -21,7 +21,7 @@ CartRouter.post(
 );
 
 CartRouter.get(
-  "/getCartItemsUserId/:userId",
+  "/getCartItemsUserId",
   authMiddleware.authorize([
     constants.USER.ROLES.ADMIN,
     constants.USER.ROLES.USER,

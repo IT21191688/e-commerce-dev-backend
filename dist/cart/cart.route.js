@@ -12,7 +12,7 @@ CartRouter.post("/addCart", auth_middleware_1.default.authorize([
     constant_1.default.USER.ROLES.ADMIN,
     constant_1.default.USER.ROLES.USER,
 ]), cart_controller_1.AddToCart);
-CartRouter.get("/getCartItemsUserId/:userId", auth_middleware_1.default.authorize([
+CartRouter.get("/getCartItemsUserId", auth_middleware_1.default.authorize([
     constant_1.default.USER.ROLES.ADMIN,
     constant_1.default.USER.ROLES.USER,
 ]), cart_controller_1.GetCartItemsByUserId);
