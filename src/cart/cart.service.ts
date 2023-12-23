@@ -6,7 +6,7 @@ const addToCart = async (cartDetails: any) => {
 };
 
 const findCartItemsByUserId = (userId: any) => {
-  return Cart.find({ userid: userId }).populate("productid");
+  return Cart.find({ userid: userId }).populate("productid").populate("userid");
 };
 
 const removeCartItem = async (cartItemId: any) => {

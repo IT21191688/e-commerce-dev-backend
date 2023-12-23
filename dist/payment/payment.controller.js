@@ -12,12 +12,20 @@ const NotFoundError_1 = __importDefault(require("../error/error.classes/NotFound
 const CreatePayment = async (req, res) => {
     const body = req.body;
     const auth = req.auth;
+    //console.log(body);
+    const paymentDetails = {
+        userId: auth._id,
+        paymentMethod: body.paymentMethod,
+        transactionDetails: body.transactionDetails,
+        paymentDate: body.paymentDate,
+        status: body.status,
+    };
     const user = await user_service_1.default.findById(auth._id);
     if (!user) {
         throw new NotFoundError_1.default("User not found!");
     }
     try {
-        const createdPayment = await payment_service_1.default.createPayment(body);
+        const createdPayment = await payment_service_1.default.createPayment(paymentDetails);
         (0, response_1.default)(res, true, http_status_codes_1.StatusCodes.CREATED, "Payment created successfully!", createdPayment);
     }
     catch (error) {

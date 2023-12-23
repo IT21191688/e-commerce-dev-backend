@@ -9,7 +9,7 @@ const addToCart = async (cartDetails) => {
     return await cart_model_1.default.create(cartDetails);
 };
 const findCartItemsByUserId = (userId) => {
-    return cart_model_1.default.find({ userid: userId }).populate("productid");
+    return cart_model_1.default.find({ userid: userId }).populate("productid").populate("userid");
 };
 const removeCartItem = async (cartItemId) => {
     return await cart_model_1.default.findByIdAndDelete(cartItemId);

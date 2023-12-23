@@ -21,13 +21,24 @@ const CreateOrder = async (req, res) => {
         if (!user) {
             throw new NotFoundError_1.default("User not found!");
         }
-        const orderedProducts = await Promise.all(products.map(async (product) => {
-            const foundProduct = await product_service_1.default.findById(product.productid);
-            if (!foundProduct) {
-                throw new NotFoundError_1.default(`Product not found for ID: ${product.productid}`);
+        console.log(products);
+        const orderedProducts = await Promise.all(products[0].map(async (product) => {
+            try {
+                if (!product.productid) {
+                    throw new Error("Product ID is missing or undefined");
+                }
+                const foundProduct = await product_service_1.default.findById(product.productid);
+                if (!foundProduct) {
+                    throw new NotFoundError_1.default(`Product not found for ID: ${product.productid}`);
+                }
+                return { productid: foundProduct._id, quantity: product.quantity };
             }
-            return { productid: product.productid, quantity: product.quantity };
+            catch (error) {
+                // Handle errors or throw them further if needed
+                throw new Error(`Error while processing product: ${error.message}`);
+            }
         }));
+        // Further processing using orderedProducts
         const newOrder = new order_model_1.default({
             userid: auth._id,
             products: orderedProducts,

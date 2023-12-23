@@ -27,17 +27,31 @@ const CreateOrder = async (req: Request, res: Response) => {
       throw new NotFoundError("User not found!");
     }
 
+    console.log(products);
+
     const orderedProducts = await Promise.all(
-      products.map(async (product: any) => {
-        const foundProduct = await productService.findById(product.productid);
-        if (!foundProduct) {
-          throw new NotFoundError(
-            `Product not found for ID: ${product.productid}`
-          );
+      products[0].map(async (product: any) => {
+        try {
+          if (!product.productid) {
+            throw new Error("Product ID is missing or undefined");
+          }
+
+          const foundProduct = await productService.findById(product.productid);
+          if (!foundProduct) {
+            throw new NotFoundError(
+              `Product not found for ID: ${product.productid}`
+            );
+          }
+
+          return { productid: foundProduct._id, quantity: product.quantity };
+        } catch (error: any) {
+          // Handle errors or throw them further if needed
+          throw new Error(`Error while processing product: ${error.message}`);
         }
-        return { productid: product.productid, quantity: product.quantity };
       })
     );
+
+    // Further processing using orderedProducts
 
     const newOrder = new Order({
       userid: auth._id,

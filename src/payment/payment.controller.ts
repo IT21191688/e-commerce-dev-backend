@@ -11,13 +11,23 @@ const CreatePayment = async (req: Request, res: Response) => {
   const body = req.body;
   const auth: any = req.auth;
 
+  //console.log(body);
+
+  const paymentDetails = {
+    userId: auth._id,
+    paymentMethod: body.paymentMethod,
+    transactionDetails: body.transactionDetails,
+    paymentDate: body.paymentDate,
+    status: body.status,
+  };
+
   const user = await userService.findById(auth._id);
   if (!user) {
     throw new NotFoundError("User not found!");
   }
 
   try {
-    const createdPayment = await paymentService.createPayment(body);
+    const createdPayment = await paymentService.createPayment(paymentDetails);
     CustomResponse(
       res,
       true,
