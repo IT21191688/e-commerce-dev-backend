@@ -15,7 +15,7 @@ const CreateContact = async (req: Request, res: Response) => {
   const userEmail = user.email;
   const userId = auth._id;
 
-  console.log(title + message + status);
+  //console.log(title + message + status);
 
   try {
     const createdContact = await contactService.saveContact(
