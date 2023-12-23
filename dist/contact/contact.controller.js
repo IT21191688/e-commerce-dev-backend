@@ -17,6 +17,7 @@ const CreateContact = async (req, res) => {
         throw new NotFoundError_1.default("User not found!");
     const userEmail = user.email;
     const userId = auth._id;
+    console.log(title + message + status);
     try {
         const createdContact = await contact_service_1.default.saveContact({ userEmail, title, message, status }, userId);
         (0, response_1.default)(res, true, http_status_codes_1.StatusCodes.CREATED, "Contact created successfully!", createdContact);
