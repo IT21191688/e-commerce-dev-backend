@@ -6,6 +6,7 @@ import OrderRouter from "./order/order.route";
 import ReviewRouter from "./review/review.route";
 import CartRouter from "./cart/cart.route";
 import PaymentRouter from "./payment/payment.route";
+import ContactRouter from "./contact/contact.route";
 
 const requestMappings = (app: any) => {
   app.use(constants.API.PREFIX.concat("/user"), UserRouter);
@@ -15,6 +16,7 @@ const requestMappings = (app: any) => {
   app.use(constants.API.PREFIX.concat("/review"), ReviewRouter);
   app.use(constants.API.PREFIX.concat("/cart"), CartRouter);
   app.use(constants.API.PREFIX.concat("/payment"), PaymentRouter);
+  app.use(constants.API.PREFIX.concat("/contact"), ContactRouter);
 };
 
 export default requestMappings;
