@@ -12,7 +12,7 @@ const saveContact = async (contactDetails, userId) => {
     return await newContact.save();
 };
 const findAllContacts = () => {
-    return contact_model_1.default.find({}).exec();
+    return contact_model_1.default.find({}).populate("userId");
 };
 const findContactById = (id) => {
     return contact_model_1.default.findById(id).exec();

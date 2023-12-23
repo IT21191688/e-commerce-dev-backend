@@ -9,7 +9,7 @@ const saveContact = async (contactDetails: any, userId: string) => {
 };
 
 const findAllContacts = () => {
-  return Contact.find({}).exec();
+  return Contact.find({}).populate("userId");
 };
 
 const findContactById = (id: string) => {
