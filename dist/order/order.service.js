@@ -13,7 +13,10 @@ const save = async (order, session) => {
     }
 };
 const findAllOrders = () => {
-    return order_model_1.default.find({});
+    return order_model_1.default.find({})
+        .populate("products.productid")
+        .populate("userid")
+        .populate("paymentid");
 };
 const findOrdersByUserId = (userId) => {
     return order_model_1.default.find({

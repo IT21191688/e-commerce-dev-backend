@@ -9,7 +9,10 @@ const save = async (order: any, session: any) => {
 };
 
 const findAllOrders = () => {
-  return Order.find({});
+  return Order.find({})
+    .populate("products.productid")
+    .populate("userid")
+    .populate("paymentid");
 };
 
 const findOrdersByUserId = (userId: any) => {

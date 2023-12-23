@@ -16,7 +16,7 @@ OrderRouter.get("/getAllOrders", auth_middleware_1.default.authorize([
     constant_1.default.USER.ROLES.ADMIN,
     constant_1.default.USER.ROLES.USER,
 ]), order_controller_1.FindAllOrders);
-OrderRouter.patch("/updateOrder/:orderId", auth_middleware_1.default.authorize([constant_1.default.USER.ROLES.ADMIN]), order_controller_1.EditOrderDetails);
+OrderRouter.post("/updateOrder/:orderId", auth_middleware_1.default.authorize([constant_1.default.USER.ROLES.ADMIN]), order_controller_1.EditOrderDetails);
 OrderRouter.get("/getOneOrder/:orderId", auth_middleware_1.default.authorize([
     constant_1.default.USER.ROLES.ADMIN,
     constant_1.default.USER.ROLES.USER,

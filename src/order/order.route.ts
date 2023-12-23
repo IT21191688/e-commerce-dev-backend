@@ -31,7 +31,7 @@ OrderRouter.get(
   FindAllOrders
 );
 
-OrderRouter.patch(
+OrderRouter.post(
   "/updateOrder/:orderId",
   authMiddleware.authorize([constants.USER.ROLES.ADMIN]),
   EditOrderDetails
