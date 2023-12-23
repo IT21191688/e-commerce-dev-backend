@@ -19,7 +19,7 @@ const findOrdersByUserId = (userId: any) => {
 };
 
 const findById = (id: any) => {
-  return Order.findOne({ _id: id });
+  return Order.findOne({ _id: id }).populate("paymentid");
 };
 
 const editOrderDetails = async (id: string, updatedDetails: any) => {

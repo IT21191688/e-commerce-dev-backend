@@ -9,22 +9,22 @@ const OrderScema = new mongoose_1.default.Schema({
         type: mongoose_1.default.Schema.Types.ObjectId,
         ref: "User",
     },
-    productid: {
-        type: mongoose_1.default.Schema.Types.ObjectId,
-        ref: "Product",
-    },
     paymentid: {
         type: mongoose_1.default.Schema.Types.ObjectId,
         ref: "Payment",
     },
-    quentity: {
-        type: Number,
-        required: [true, "Quentity is Required"],
-    },
-    totalprice: {
-        type: Number,
-        required: [true, "total Price is required!"],
-    },
+    products: [
+        {
+            productid: {
+                type: mongoose_1.default.Schema.Types.ObjectId,
+                ref: "Product",
+            },
+            quantity: {
+                type: Number,
+                required: [true, "Quantity is Required"],
+            },
+        },
+    ],
     deliveryaddress: {
         type: String,
         required: [true, "address is required!"],

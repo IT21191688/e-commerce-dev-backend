@@ -21,7 +21,7 @@ const findOrdersByUserId = (userId) => {
     });
 };
 const findById = (id) => {
-    return order_model_1.default.findOne({ _id: id });
+    return order_model_1.default.findOne({ _id: id }).populate("paymentid");
 };
 const editOrderDetails = async (id, updatedDetails) => {
     return await order_model_1.default.findByIdAndUpdate(id, updatedDetails, { new: true });

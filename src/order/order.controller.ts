@@ -15,52 +15,40 @@ const CreateOrder = async (req: Request, res: Response) => {
   try {
     const auth: any = req.auth;
     const {
-      productid,
+      products, // Array of product objects with { productid, quantity }
       paymentid,
-      quentity,
-      totalprice,
       deliveryaddress,
       orderdate,
       orderstatus,
     } = req.body;
-
-    // console.log(quentity);
 
     const user = await userService.findById(auth._id);
     if (!user) {
       throw new NotFoundError("User not found!");
     }
 
-    const product = await productService.findById(productid);
-    if (!product) {
-      throw new NotFoundError("Product not found!");
-    }
+    const orderedProducts = await Promise.all(
+      products.map(async (product: any) => {
+        const foundProduct = await productService.findById(product.productid);
+        if (!foundProduct) {
+          throw new NotFoundError(
+            `Product not found for ID: ${product.productid}`
+          );
+        }
+        return { productid: product.productid, quantity: product.quantity };
+      })
+    );
 
     const newOrder = new Order({
       userid: auth._id,
-      productid,
+      products: orderedProducts,
       paymentid,
-      quentity,
-      totalprice,
       deliveryaddress,
       orderdate,
       orderstatus,
     });
 
     const createdOrder = await orderService.save(newOrder, null);
-
-    if (createdOrder != null) {
-      const subject = "Order Success";
-      const htmlBody = emailService.OrderPlacedEmail({
-        fullName: user.firstname + " " + user.lastname,
-        orderId: createdOrder._id,
-        orderDate: createdOrder.orderdate,
-        totalAmount: createdOrder.totalprice,
-      });
-
-      // Send email to the user's email address
-      await sendEmail(user.email, subject, htmlBody, null);
-    }
 
     CustomResponse(
       res,

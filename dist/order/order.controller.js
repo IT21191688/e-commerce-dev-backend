@@ -12,43 +12,31 @@ const order_service_1 = __importDefault(require("./order.service"));
 const response_1 = __importDefault(require("../util/response"));
 const NotFoundError_1 = __importDefault(require("../error/error.classes/NotFoundError"));
 const ForbiddenError_1 = __importDefault(require("../error/error.classes/ForbiddenError"));
-const emailServer_1 = require("../util/emailServer");
-const email_templates_1 = __importDefault(require("../util/email-templates/email.templates"));
 const CreateOrder = async (req, res) => {
     try {
         const auth = req.auth;
-        const { productid, paymentid, quentity, totalprice, deliveryaddress, orderdate, orderstatus, } = req.body;
-        // console.log(quentity);
+        const { products, // Array of product objects with { productid, quantity }
+        paymentid, deliveryaddress, orderdate, orderstatus, } = req.body;
         const user = await user_service_1.default.findById(auth._id);
         if (!user) {
             throw new NotFoundError_1.default("User not found!");
         }
-        const product = await product_service_1.default.findById(productid);
-        if (!product) {
-            throw new NotFoundError_1.default("Product not found!");
-        }
+        const orderedProducts = await Promise.all(products.map(async (product) => {
+            const foundProduct = await product_service_1.default.findById(product.productid);
+            if (!foundProduct) {
+                throw new NotFoundError_1.default(`Product not found for ID: ${product.productid}`);
+            }
+            return { productid: product.productid, quantity: product.quantity };
+        }));
         const newOrder = new order_model_1.default({
             userid: auth._id,
-            productid,
+            products: orderedProducts,
             paymentid,
-            quentity,
-            totalprice,
             deliveryaddress,
             orderdate,
             orderstatus,
         });
         const createdOrder = await order_service_1.default.save(newOrder, null);
-        if (createdOrder != null) {
-            const subject = "Order Success";
-            const htmlBody = email_templates_1.default.OrderPlacedEmail({
-                fullName: user.firstname + " " + user.lastname,
-                orderId: createdOrder._id,
-                orderDate: createdOrder.orderdate,
-                totalAmount: createdOrder.totalprice,
-            });
-            // Send email to the user's email address
-            await (0, emailServer_1.sendEmail)(user.email, subject, htmlBody, null);
-        }
         (0, response_1.default)(res, true, http_status_codes_1.StatusCodes.CREATED, "Order created successfully!", createdOrder);
     }
     catch (error) {
