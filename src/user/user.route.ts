@@ -29,7 +29,7 @@ UserRouter.get(
   GetAllUsers
 );
 
-UserRouter.patch(
+UserRouter.post(
   "/updateUser",
   authMiddleware.authorize([
     constants.USER.ROLES.ADMIN,
@@ -42,5 +42,5 @@ UserRouter.post(
   "/updateUser/:userId",
   authMiddleware.authorize([constants.USER.ROLES.ADMIN]),
   EditUserDetailsUserId
-);//
+); //
 export default UserRouter;
