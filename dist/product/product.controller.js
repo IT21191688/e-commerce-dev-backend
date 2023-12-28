@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.FindOneProductById = exports.DeleteProduct = exports.EditProductDetails = exports.FindAllProducts = exports.CreateProduct = void 0;
+exports.ReduceProductQuantity = exports.FindOneProductById = exports.DeleteProduct = exports.EditProductDetails = exports.FindAllProducts = exports.CreateProduct = void 0;
 const http_status_codes_1 = require("http-status-codes");
 const user_service_1 = __importDefault(require("../user/user.service"));
 const product_model_1 = __importDefault(require("./product.model"));
@@ -152,3 +152,19 @@ const FindOneProductById = async (req, res) => {
     }
 };
 exports.FindOneProductById = FindOneProductById;
+const ReduceProductQuantity = async (productId, quantityToReduce) => {
+    try {
+        const product = await product_model_1.default.findById(productId);
+        if (!product) {
+            throw new NotFoundError_1.default(`Product not found for ID: ${productId}`);
+        }
+        const newProductQty = product.productqty - quantityToReduce;
+        const updatedProduct = await product_model_1.default.findByIdAndUpdate(productId, { productqty: newProductQty }, { new: true });
+        //console.log(updatedProduct);
+        return updatedProduct;
+    }
+    catch (error) {
+        throw new Error(`Error while updating product quantity: ${error.message}`);
+    }
+};
+exports.ReduceProductQuantity = ReduceProductQuantity;

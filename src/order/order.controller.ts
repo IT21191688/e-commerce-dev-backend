@@ -8,6 +8,7 @@ import orderService from "./order.service";
 import CustomResponse from "../util/response";
 import NotFoundError from "../error/error.classes/NotFoundError";
 import ForbiddenError from "../error/error.classes/ForbiddenError";
+import { ReduceProductQuantity } from "../product/product.controller";
 
 import { sendEmail } from "../util/emailServer";
 import emailService from "../util/email-templates/email.templates";
@@ -44,9 +45,10 @@ const CreateOrder = async (req: Request, res: Response) => {
             );
           }
 
+          ReduceProductQuantity(product.productid, product.quantity);
+
           return { productid: foundProduct._id, quantity: product.quantity };
         } catch (error: any) {
-          // Handle errors or throw them further if needed
           throw new Error(`Error while processing product: ${error.message}`);
         }
       })

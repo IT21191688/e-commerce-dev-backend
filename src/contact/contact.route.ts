@@ -3,6 +3,8 @@ import authMiddleware from "../auth/auth.middleware";
 import {
   CreateContact,
   FindAllContacts,
+  EditContact,
+  DeleteContact,
   /* Import other contact controller functions here if needed */
 } from "./contact.controller";
 import constants from "../constant";
@@ -27,13 +29,13 @@ ContactRouter.get(
 ContactRouter.post(
   "/updateContact/:contactId",
   authMiddleware.authorize([constants.USER.ROLES.ADMIN]),
-  FindAllContacts
+  EditContact
 );
 
 ContactRouter.delete(
   "/deleteContact/:contactId",
   authMiddleware.authorize([constants.USER.ROLES.ADMIN]),
-  FindAllContacts
+  DeleteContact
 );
 
 // Other contact routes can be added here using corresponding controller functions

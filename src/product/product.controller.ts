@@ -206,10 +206,35 @@ const FindOneProductById = async (req: Request, res: Response) => {
   }
 };
 
+const ReduceProductQuantity = async (productId: any, quantityToReduce: any) => {
+  try {
+    const product = await Product.findById(productId);
+
+    if (!product) {
+      throw new NotFoundError(`Product not found for ID: ${productId}`);
+    }
+
+    const newProductQty = product.productqty - quantityToReduce;
+
+    const updatedProduct = await Product.findByIdAndUpdate(
+      productId,
+      { productqty: newProductQty },
+      { new: true }
+    );
+
+    //console.log(updatedProduct);
+
+    return updatedProduct;
+  } catch (error: any) {
+    throw new Error(`Error while updating product quantity: ${error.message}`);
+  }
+};
+
 export {
   CreateProduct,
   FindAllProducts,
   EditProductDetails,
   DeleteProduct,
   FindOneProductById,
+  ReduceProductQuantity,
 };

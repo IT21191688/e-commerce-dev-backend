@@ -13,6 +13,7 @@ const order_service_1 = __importDefault(require("./order.service"));
 const response_1 = __importDefault(require("../util/response"));
 const NotFoundError_1 = __importDefault(require("../error/error.classes/NotFoundError"));
 const ForbiddenError_1 = __importDefault(require("../error/error.classes/ForbiddenError"));
+const product_controller_1 = require("../product/product.controller");
 const emailServer_1 = require("../util/emailServer");
 const email_templates_1 = __importDefault(require("../util/email-templates/email.templates"));
 const CreateOrder = async (req, res) => {
@@ -34,10 +35,10 @@ const CreateOrder = async (req, res) => {
                 if (!foundProduct) {
                     throw new NotFoundError_1.default(`Product not found for ID: ${product.productid}`);
                 }
+                (0, product_controller_1.ReduceProductQuantity)(product.productid, product.quantity);
                 return { productid: foundProduct._id, quantity: product.quantity };
             }
             catch (error) {
-                // Handle errors or throw them further if needed
                 throw new Error(`Error while processing product: ${error.message}`);
             }
         }));
