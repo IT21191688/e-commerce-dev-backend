@@ -35,11 +35,11 @@ const RegisterUser = async (req, res) => {
         createdUser = await user_service_1.default.save(user, session);
         if (createdUser != null) {
             // Prepare and send email content
-            const subject = "Registe Success";
+            const subject = "Register Success";
             const htmlBody = email_templates_1.default.UserRegisteredEmail({
                 fullName: createdUser.firstname + " " + createdUser.lastname,
             });
-            // Send email to the student's email address
+            // Send email to the users's email address
             await (0, emailServer_1.sendEmail)(user.email, subject, htmlBody, null);
         }
         await user_service_1.default.save(auth, session);

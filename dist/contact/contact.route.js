@@ -13,5 +13,7 @@ ContactRouter.post("/createContact", auth_middleware_1.default.authorize([
     constant_1.default.USER.ROLES.USER,
 ]), contact_controller_1.CreateContact);
 ContactRouter.get("/getAllContacts", auth_middleware_1.default.authorize([constant_1.default.USER.ROLES.ADMIN]), contact_controller_1.FindAllContacts);
+ContactRouter.post("/updateContact/:contactId", auth_middleware_1.default.authorize([constant_1.default.USER.ROLES.ADMIN]), contact_controller_1.FindAllContacts);
+ContactRouter.delete("/deleteContact/:contactId", auth_middleware_1.default.authorize([constant_1.default.USER.ROLES.ADMIN]), contact_controller_1.FindAllContacts);
 // Other contact routes can be added here using corresponding controller functions
 exports.default = ContactRouter;

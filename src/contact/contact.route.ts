@@ -24,6 +24,18 @@ ContactRouter.get(
   FindAllContacts
 );
 
+ContactRouter.post(
+  "/updateContact/:contactId",
+  authMiddleware.authorize([constants.USER.ROLES.ADMIN]),
+  FindAllContacts
+);
+
+ContactRouter.delete(
+  "/deleteContact/:contactId",
+  authMiddleware.authorize([constants.USER.ROLES.ADMIN]),
+  FindAllContacts
+);
+
 // Other contact routes can be added here using corresponding controller functions
 
 export default ContactRouter;

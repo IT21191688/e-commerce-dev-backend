@@ -146,6 +146,8 @@ const EditOrderDetails = async (req: Request, res: Response) => {
       updatedDetails
     );
 
+    //console.log(updatedOrder);
+
     CustomResponse(
       res,
       true,

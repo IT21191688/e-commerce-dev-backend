@@ -61,10 +61,67 @@ const FindAllContacts = async (req: Request, res: Response) => {
   }
 };
 
-// Other contact controller functions as needed
-// You can add/update/delete functions here using contactService methods
+const EditContact = async (req: Request, res: Response) => {
+  const contactId = req.params.contactId;
+  const updatedDetails = req.body;
+
+  try {
+    const updatedContact = await contactService.updateContact(
+      contactId,
+      updatedDetails
+    );
+
+    if (!updatedContact) {
+      throw new NotFoundError("Contact not found!");
+    }
+
+    CustomResponse(
+      res,
+      true,
+      StatusCodes.OK,
+      "Contact updated successfully!",
+      updatedContact
+    );
+  } catch (error: any) {
+    console.error(error);
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      success: false,
+      message: "Error updating contact",
+      error: error.message,
+    });
+  }
+};
+
+const DeleteContact = async (req: Request, res: Response) => {
+  const contactId = req.params.contactId;
+
+  try {
+    const deletedContact = await contactService.deleteContactById(contactId);
+
+    if (!deletedContact) {
+      throw new NotFoundError("Contact not found!");
+    }
+
+    CustomResponse(
+      res,
+      true,
+      StatusCodes.OK,
+      "Contact deleted successfully!",
+      deletedContact
+    );
+  } catch (error: any) {
+    console.error(error);
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      success: false,
+      message: "Error deleting contact",
+      error: error.message,
+    });
+  }
+};
 
 export {
   CreateContact,
-  FindAllContacts /* Add other contact functions here */,
+  FindAllContacts,
+  EditContact,
+  DeleteContact /* Add other contact functions here */,
 };

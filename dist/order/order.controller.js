@@ -106,6 +106,7 @@ const EditOrderDetails = async (req, res) => {
         }
         const updatedDetails = req.body;
         const updatedOrder = await order_service_1.default.editOrderDetails(orderId, updatedDetails);
+        //console.log(updatedOrder);
         (0, response_1.default)(res, true, http_status_codes_1.StatusCodes.OK, "Order details updated successfully!", updatedOrder);
     }
     catch (error) {
