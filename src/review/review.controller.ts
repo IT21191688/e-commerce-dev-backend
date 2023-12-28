@@ -115,10 +115,11 @@ const DeleteReview = async (req: Request, res: Response) => {
       throw new NotFoundError("Review not found!");
     }
 
+    /*
     if (review.userid.toString() !== auth._id.toString()) {
       throw new ForbiddenError("You are not authorized to delete this review!");
     }
-
+*/
     await reviewService.deleteReviewById(reviewId);
 
     CustomResponse(
