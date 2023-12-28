@@ -13,8 +13,13 @@ const removeCartItem = async (cartItemId: any) => {
   return await Cart.findByIdAndDelete(cartItemId);
 };
 
+const removeAllCartItems = async (userId: any) => {
+  return await Cart.deleteMany({ userid: userId });
+};
+
 export default {
   addToCart,
   findCartItemsByUserId,
   removeCartItem,
+  removeAllCartItems,
 };

@@ -8,10 +8,13 @@ const http_status_codes_1 = require("http-status-codes");
 const user_service_1 = __importDefault(require("../user/user.service"));
 const product_service_1 = __importDefault(require("../product/product.service"));
 const order_model_1 = __importDefault(require("./order.model"));
+const cart_service_1 = __importDefault(require("../cart/cart.service"));
 const order_service_1 = __importDefault(require("./order.service"));
 const response_1 = __importDefault(require("../util/response"));
 const NotFoundError_1 = __importDefault(require("../error/error.classes/NotFoundError"));
 const ForbiddenError_1 = __importDefault(require("../error/error.classes/ForbiddenError"));
+const emailServer_1 = require("../util/emailServer");
+const email_templates_1 = __importDefault(require("../util/email-templates/email.templates"));
 const CreateOrder = async (req, res) => {
     try {
         const auth = req.auth;
@@ -48,6 +51,16 @@ const CreateOrder = async (req, res) => {
             orderstatus,
         });
         const createdOrder = await order_service_1.default.save(newOrder, null);
+        if (createdOrder != null) {
+            cart_service_1.default.removeAllCartItems(auth._id);
+            const subject = "Your Order Success";
+            const htmlBody = email_templates_1.default.OrderPlacedEmail({
+                fullName: user.firstname + " " + user.lastname,
+                orderId: createdOrder._id,
+                orderDate: createdOrder.orderdate,
+            });
+            await (0, emailServer_1.sendEmail)(user.email, subject, htmlBody, null);
+        }
         (0, response_1.default)(res, true, http_status_codes_1.StatusCodes.CREATED, "Order created successfully!", createdOrder);
     }
     catch (error) {

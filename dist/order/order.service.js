@@ -21,7 +21,9 @@ const findAllOrders = () => {
 const findOrdersByUserId = (userId) => {
     return order_model_1.default.find({
         userid: userId,
-    });
+    })
+        .populate("products.productid")
+        .populate("paymentid");
 };
 const findById = (id) => {
     return order_model_1.default.findOne({ _id: id }).populate("paymentid");

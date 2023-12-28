@@ -43,12 +43,12 @@ const RegisterUser = async (req: Request, res: Response) => {
 
     if (createdUser != null) {
       // Prepare and send email content
-      const subject = "Registe Success";
+      const subject = "Register Success";
       const htmlBody = emailService.UserRegisteredEmail({
         fullName: createdUser.firstname + " " + createdUser.lastname,
       });
 
-      // Send email to the student's email address
+      // Send email to the users's email address
       await sendEmail(user.email, subject, htmlBody, null);
     }
 

@@ -14,8 +14,12 @@ const findCartItemsByUserId = (userId) => {
 const removeCartItem = async (cartItemId) => {
     return await cart_model_1.default.findByIdAndDelete(cartItemId);
 };
+const removeAllCartItems = async (userId) => {
+    return await cart_model_1.default.deleteMany({ userid: userId });
+};
 exports.default = {
     addToCart,
     findCartItemsByUserId,
     removeCartItem,
+    removeAllCartItems,
 };

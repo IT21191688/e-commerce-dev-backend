@@ -3,6 +3,7 @@ import { StatusCodes } from "http-status-codes";
 import userService from "../user/user.service";
 import productService from "../product/product.service";
 import Order from "./order.model";
+import cartService from "../cart/cart.service";
 import orderService from "./order.service";
 import CustomResponse from "../util/response";
 import NotFoundError from "../error/error.classes/NotFoundError";
@@ -63,6 +64,19 @@ const CreateOrder = async (req: Request, res: Response) => {
     });
 
     const createdOrder = await orderService.save(newOrder, null);
+
+    if (createdOrder != null) {
+      cartService.removeAllCartItems(auth._id);
+
+      const subject = "Your Order Success";
+      const htmlBody = emailService.OrderPlacedEmail({
+        fullName: user.firstname + " " + user.lastname,
+        orderId: createdOrder._id,
+        orderDate: createdOrder.orderdate,
+      });
+
+      await sendEmail(user.email, subject, htmlBody, null);
+    }
 
     CustomResponse(
       res,

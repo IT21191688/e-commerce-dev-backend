@@ -18,7 +18,9 @@ const findAllOrders = () => {
 const findOrdersByUserId = (userId: any) => {
   return Order.find({
     userid: userId,
-  });
+  })
+    .populate("products.productid")
+    .populate("paymentid");
 };
 
 const findById = (id: any) => {
