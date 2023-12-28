@@ -10,7 +10,7 @@ const ReviewSchema = new mongoose.Schema(
     productid: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Product",
-      required: true,
+      required: false,
     },
     orderid: {
       type: mongoose.Schema.Types.ObjectId,

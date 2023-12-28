@@ -13,7 +13,7 @@ const saveReview = async (review, session) => {
     }
 };
 const findAllReviews = () => {
-    return review_model_1.default.find({});
+    return review_model_1.default.find({}).populate("userid");
 };
 const findReviewsByUserId = (userId) => {
     return review_model_1.default.find({ userid: userId });

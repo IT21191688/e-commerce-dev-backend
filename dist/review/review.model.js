@@ -13,7 +13,7 @@ const ReviewSchema = new mongoose_1.default.Schema({
     productid: {
         type: mongoose_1.default.Schema.Types.ObjectId,
         ref: "Product",
-        required: true,
+        required: false,
     },
     orderid: {
         type: mongoose_1.default.Schema.Types.ObjectId,

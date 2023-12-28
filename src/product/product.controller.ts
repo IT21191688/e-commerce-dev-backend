@@ -64,7 +64,6 @@ const CreateProduct = async (req: Request, res: Response) => {
       createdProduct
     );
   } catch (error: any) {
-    // Handle error, such as logging or sending an error response
     console.error(error);
     res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
       success: false,

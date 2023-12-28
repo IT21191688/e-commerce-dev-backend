@@ -48,7 +48,6 @@ const CreateProduct = async (req, res) => {
         (0, response_1.default)(res, true, http_status_codes_1.StatusCodes.CREATED, "Product created successfully!", createdProduct);
     }
     catch (error) {
-        // Handle error, such as logging or sending an error response
         console.error(error);
         res.status(http_status_codes_1.StatusCodes.INTERNAL_SERVER_ERROR).json({
             success: false,

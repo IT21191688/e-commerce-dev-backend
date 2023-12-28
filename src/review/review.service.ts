@@ -9,7 +9,7 @@ const saveReview = async (review: any, session: any) => {
 };
 
 const findAllReviews = () => {
-  return Review.find({});
+  return Review.find({}).populate("userid");
 };
 
 const findReviewsByUserId = (userId: any) => {
