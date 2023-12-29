@@ -29,7 +29,7 @@ const CreateOrder = async (req: Request, res: Response) => {
       throw new NotFoundError("User not found!");
     }
 
-    console.log(products);
+    //console.log(products);
 
     const orderedProducts = await Promise.all(
       products[0].map(async (product: any) => {

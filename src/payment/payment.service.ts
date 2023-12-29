@@ -5,7 +5,7 @@ const createPayment = async (paymentDetails: any) => {
 };
 
 const retrieveAllPayments = async () => {
-  return await Payment.find({});
+  return await Payment.find({}).populate("userId");
 };
 
 const retrievePaymentDetailsById = async (paymentId: string) => {

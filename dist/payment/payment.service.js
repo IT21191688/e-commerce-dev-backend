@@ -8,7 +8,7 @@ const createPayment = async (paymentDetails) => {
     return await payment_model_1.default.create(paymentDetails);
 };
 const retrieveAllPayments = async () => {
-    return await payment_model_1.default.find({});
+    return await payment_model_1.default.find({}).populate("userId");
 };
 const retrievePaymentDetailsById = async (paymentId) => {
     return await payment_model_1.default.findById(paymentId);

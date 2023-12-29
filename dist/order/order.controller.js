@@ -25,7 +25,7 @@ const CreateOrder = async (req, res) => {
         if (!user) {
             throw new NotFoundError_1.default("User not found!");
         }
-        console.log(products);
+        //console.log(products);
         const orderedProducts = await Promise.all(products[0].map(async (product) => {
             try {
                 if (!product.productid) {
