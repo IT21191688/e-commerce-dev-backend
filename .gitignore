@@ -101,4 +101,4 @@ typings/
 .tern-port
 
 
-.env
+#.env
