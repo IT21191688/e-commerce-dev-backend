@@ -3,6 +3,10 @@ import constants from "../constant";
 
 const UserSchema = new mongoose.Schema(
   {
+    googleId: {
+      type: String,
+      //required: true,
+    },
     firstname: {
       type: String,
       required: [true, "first name is required"],

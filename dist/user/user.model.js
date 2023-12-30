@@ -6,6 +6,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importDefault(require("mongoose"));
 const constant_1 = __importDefault(require("../constant"));
 const UserSchema = new mongoose_1.default.Schema({
+    googleId: {
+        type: String,
+        //required: true,
+    },
     firstname: {
         type: String,
         required: [true, "first name is required"],
