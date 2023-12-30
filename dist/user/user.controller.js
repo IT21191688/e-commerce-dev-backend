@@ -103,7 +103,7 @@ const ResetPassword = async (req, res) => {
     const { email, newPassword } = req.body;
     try {
         const updatedUser = await user_service_1.default.resetPassword(email, newPassword);
-        console.log("-------------" + updatedUser);
+        // console.log("-------------" + updatedUser);
         return (0, response_1.default)(res, true, http_status_codes_1.StatusCodes.OK, "Password changed successfully!", { changed: true });
     }
     catch (error) {
