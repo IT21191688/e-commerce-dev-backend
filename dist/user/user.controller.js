@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.EditUserDetailsUserId = exports.EditUserDetails = exports.GetAllUsers = exports.GetUserProfile = exports.RegisterUser = void 0;
+exports.SendVerificationCode = exports.ResetPassword = exports.EditUserDetailsUserId = exports.EditUserDetails = exports.GetAllUsers = exports.GetUserProfile = exports.RegisterUser = void 0;
 const user_util_1 = __importDefault(require("./user.util"));
 const user_service_1 = __importDefault(require("./user.service"));
 const user_model_1 = __importDefault(require("./user.model"));
@@ -89,15 +89,33 @@ const EditUserDetails = async (req, res) => {
     return (0, response_1.default)(res, true, http_status_codes_1.StatusCodes.OK, "Edit User successfully!", updatedUser);
 };
 exports.EditUserDetails = EditUserDetails;
+const SendVerificationCode = async (req, res) => {
+    const { email } = req.body;
+    const verificationCode = Math.floor(1000 + Math.random() * 9000);
+    const subject = "Password Reset Verification Code";
+    const htmlBody = email_templates_1.default.VerificationCodeEmail(verificationCode);
+    // Send email to the user's email address
+    await (0, emailServer_1.sendEmail)(email, subject, htmlBody, null);
+    return (0, response_1.default)(res, true, http_status_codes_1.StatusCodes.OK, "Verification code sent successfully!", { verificationCode });
+};
+exports.SendVerificationCode = SendVerificationCode;
 const ResetPassword = async (req, res) => {
     const { email, newPassword } = req.body;
-    const updatedUser = await user_service_1.default.resetPassword(email, newPassword);
-    // Handle response accordingly
+    try {
+        const updatedUser = await user_service_1.default.resetPassword(email, newPassword);
+        console.log("-------------" + updatedUser);
+        return (0, response_1.default)(res, true, http_status_codes_1.StatusCodes.OK, "Password changed successfully!", { changed: true });
+    }
+    catch (error) {
+        // Handle errors here
+        console.error(error);
+    }
 };
+exports.ResetPassword = ResetPassword;
 const EditUserDetailsUserId = async (req, res) => {
     const auth = req.auth;
     const userId = req.params.userId;
-    console.log(userId);
+    // console.log(userId);
     const user = await user_service_1.default.findById(auth._id);
     if (!user) {
         throw new NotFoundError_1.default("User not found!");

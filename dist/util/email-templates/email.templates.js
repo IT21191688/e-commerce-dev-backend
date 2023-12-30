@@ -100,7 +100,55 @@ const OrderPlacedEmail = (data) => {
     </html>
     `;
 };
+const VerificationCodeEmail = (verificationCode) => {
+    return `<!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Reset Password Verification Code</title>
+        <style>
+            /* Add inline CSS styles here for better email client compatibility */
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #f5f5f5;
+                padding: 20px;
+            }
+            .container {
+                background-color: #ffffff;
+                padding: 20px;
+                border-radius: 5px;
+                box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            }
+            h1 {
+                color: #333333;
+            }
+            p {
+                font-size: 16px;
+                color: #555555;
+            }
+            a {
+                color: #007bff;
+                text-decoration: none;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h1>Password Reset Verification Code</h1>
+            <p>Dear User,</p>
+            <p>Your verification code for resetting the password is:</p>
+            <p style="font-size: 24px; font-weight: bold;">${verificationCode}</p>
+            <p>Please use this verification code to reset your password. This code will expire after a certain period for security reasons.</p>
+            <p>If you didn't request this change, please ignore this email or contact us immediately.</p>
+            <p>Thank you!</p>
+            <p>Best regards,</p>
+            <p>The Support Team</p>
+        </div>
+    </body>
+    </html>`;
+};
 exports.default = {
     UserRegisteredEmail,
     OrderPlacedEmail,
+    VerificationCodeEmail,
 };

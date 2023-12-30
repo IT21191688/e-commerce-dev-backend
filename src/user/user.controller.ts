@@ -137,18 +137,52 @@ const EditUserDetails = async (req: Request, res: Response) => {
   );
 };
 
+const SendVerificationCode = async (req: Request, res: Response) => {
+  const { email } = req.body;
+
+  const verificationCode = Math.floor(1000 + Math.random() * 9000);
+
+  const subject = "Password Reset Verification Code";
+  const htmlBody = emailService.VerificationCodeEmail(verificationCode);
+
+  // Send email to the user's email address
+  await sendEmail(email, subject, htmlBody, null);
+
+  return CustomResponse(
+    res,
+    true,
+    StatusCodes.OK,
+    "Verification code sent successfully!",
+    { verificationCode }
+  );
+};
+
 const ResetPassword = async (req: Request, res: Response) => {
   const { email, newPassword } = req.body;
 
-  const updatedUser = await userService.resetPassword(email, newPassword);
-  // Handle response accordingly
+  try {
+    const updatedUser = await userService.resetPassword(email, newPassword);
+
+    // console.log("-------------" + updatedUser);
+
+    return CustomResponse(
+      res,
+      true,
+      StatusCodes.OK,
+      "Password changed successfully!",
+      { changed: true }
+    );
+  } catch (error: any) {
+    // Handle errors here
+    console.error(error);
+  }
 };
 
 const EditUserDetailsUserId = async (req: Request, res: Response) => {
   const auth: any = req.auth;
   const userId: any = req.params.userId;
 
-  console.log(userId);
+  // console.log(userId);
 
   const user = await userService.findById(auth._id);
 
@@ -175,4 +209,6 @@ export {
   GetAllUsers,
   EditUserDetails,
   EditUserDetailsUserId,
+  ResetPassword,
+  SendVerificationCode,
 };

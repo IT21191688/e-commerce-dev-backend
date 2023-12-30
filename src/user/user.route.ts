@@ -7,6 +7,8 @@ import {
   GetAllUsers,
   EditUserDetails,
   EditUserDetailsUserId,
+  SendVerificationCode,
+  ResetPassword,
 } from "./user.controller";
 import constants from "../constant";
 
@@ -22,6 +24,10 @@ UserRouter.get(
   ]),
   GetUserProfile
 );
+
+UserRouter.post("/sendVerificationCode", SendVerificationCode);
+
+UserRouter.post("/resetPassword", ResetPassword);
 
 UserRouter.get(
   "/getAllUser",

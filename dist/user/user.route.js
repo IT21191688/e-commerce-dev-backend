@@ -13,6 +13,8 @@ UserRouter.get("/profile", auth_middleware_1.default.authorize([
     constant_1.default.USER.ROLES.ADMIN,
     constant_1.default.USER.ROLES.USER,
 ]), user_controller_1.GetUserProfile);
+UserRouter.post("/sendVerificationCode", user_controller_1.SendVerificationCode);
+UserRouter.post("/resetPassword", user_controller_1.ResetPassword);
 UserRouter.get("/getAllUser", auth_middleware_1.default.authorize([constant_1.default.USER.ROLES.ADMIN]), user_controller_1.GetAllUsers);
 UserRouter.post("/updateUser", auth_middleware_1.default.authorize([
     constant_1.default.USER.ROLES.ADMIN,

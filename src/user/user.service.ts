@@ -32,6 +32,8 @@ const resetPassword = async (email: string, newPassword: string) => {
     throw new NotFoundError("User not found");
   }
 
+  //console.log("===================" + newPassword);
+
   user.password = newPassword;
   await user.save();
   return user;
