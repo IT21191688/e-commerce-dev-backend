@@ -7,7 +7,7 @@ const UserRegisteredEmail = (data) => {
         <meta charset="UTF-8">
         <title>Welcome to Our E-commerce Platform</title>
         <style>
-            /* Add inline CSS styles here for better email client compatibility */
+           
             body {
                 font-family: Arial, sans-serif;
                 background-color: #f5f5f5;
@@ -53,7 +53,7 @@ const OrderPlacedEmail = (data) => {
         <meta charset="UTF-8">
         <title>Order Placed - E-commerce Platform</title>
         <style>
-            /* Add inline CSS styles here for better email client compatibility */
+           
             body {
                 font-family: Arial, sans-serif;
                 background-color: #f5f5f5;
@@ -107,7 +107,7 @@ const VerificationCodeEmail = (verificationCode) => {
         <meta charset="UTF-8">
         <title>Reset Password Verification Code</title>
         <style>
-            /* Add inline CSS styles here for better email client compatibility */
+           
             body {
                 font-family: Arial, sans-serif;
                 background-color: #f5f5f5;
@@ -154,7 +154,7 @@ const DailySummaryEmail = (totalOrderCount, totalERN) => {
         <meta charset="UTF-8">
         <title>Daily Summary</title>
         <style>
-            /* Add inline CSS styles here for better email client compatibility */
+        
             body {
                 font-family: Arial, sans-serif;
                 background-color: #f5f5f5;
