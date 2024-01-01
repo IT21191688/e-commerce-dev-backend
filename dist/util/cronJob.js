@@ -16,7 +16,6 @@ const calculateAndSendDailySummary = async () => {
     try {
         const today = new Date();
         const orders = await order_service_1.default.findOrdersByDate(today);
-        // Calculate total ERN value and order count for the day
         let totalERN = 0;
         const orderCount = orders.length;
         orders.forEach((order) => {
