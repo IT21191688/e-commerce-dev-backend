@@ -7,7 +7,7 @@ const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const common_config_1 = require("./common/common.config");
-//import { sendAppointmentReminders } from "./util/cronJob";
+const cronJob_1 = require("./util/cronJob");
 const error_middleware_1 = __importDefault(require("./error/error.middleware"));
 require("express-async-errors");
 const NotFoundError_1 = __importDefault(require("./error/error.classes/NotFoundError"));
@@ -29,7 +29,7 @@ app.all("*", async (req, res) => {
     throw new NotFoundError_1.default("API endpoint not found!");
 });
 //setup cron jobs
-//sendAppointmentReminders();
+(0, cronJob_1.sendDailySummary)();
 const start = async () => {
     const port = process.env.PORT || 5000;
     try {

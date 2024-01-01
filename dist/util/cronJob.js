@@ -1,51 +1,47 @@
 "use strict";
-/*
-import schedule from "node-schedule";
-import appointmentService from "../appointment/appointment.service";
-import emailTemplates from "./email-templates/email.templates";
-import userService from "../user/user.service";
-import { sendEmail } from "./emailServer";
-import { timeSlots } from "../appointment/appointment.util";
-
-//cron job helper fun
-export const cronJob = (cronTime: string, callback: () => void) => {
-  schedule.scheduleJob(cronTime, callback);
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-
-//30 * * * * * => every 30 seconds
-// 0 6 * * * => every day at 6 am
-
-//send appointment reminders daily at 6 am
-const sendAppointmentReminders = () => {
-  cronJob("* * * * *", async () => {
-    console.log("Appointment reminder cron job running...");
-    //get today's date
-    const today = new Date();
-
-    //get all appointments for today
-    const appointments: any = await appointmentService.findByDateAndApproved(
-      new Date(today.toISOString().split("T")[0])
-    );
-
-    appointments.forEach(async (appointment: any) => {
-      let user: any = await userService.findById(appointment.addedBy);
-
-      let data: any = {
-        userName: user.fullName,
-        appointmentDate: appointment.appointmentDate,
-        appointmentTime: timeSlots.find((time: any) => {
-          return time.id === appointment.appointmentTime;
-        })?.timeSlot,
-      };
-
-      let htmlBody = emailTemplates.AppointmentReminderTemplate(data);
-
-      await sendEmail(user.email, "Appointment Reminder", htmlBody, null);
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.sendDailySummary = exports.cronJob = void 0;
+const node_schedule_1 = __importDefault(require("node-schedule"));
+const order_service_1 = __importDefault(require("../order/order.service"));
+const email_templates_1 = __importDefault(require("./email-templates/email.templates"));
+const emailServer_1 = require("./emailServer");
+const cronJob = (cronTime, callback) => {
+    node_schedule_1.default.scheduleJob(cronTime, callback);
+};
+exports.cronJob = cronJob;
+const calculateAndSendDailySummary = async () => {
+    try {
+        const today = new Date();
+        const orders = await order_service_1.default.findOrdersByDate(today);
+        // Calculate total ERN value and order count for the day
+        let totalERN = 0;
+        const orderCount = orders.length;
+        orders.forEach((order) => {
+            totalERN += order.paymentid.transactionDetails.amount;
+        });
+        const htmlBody = email_templates_1.default.DailySummaryEmail(orderCount, totalERN);
+        const subject = "today summary";
+        const email = "sadeepalakshan0804@gmail.com";
+        await (0, emailServer_1.sendEmail)(email, subject, htmlBody, null);
+    }
+    catch (error) {
+        console.error("Error generating and sending report:", error);
+        throw error;
+    }
+};
+//this run on 11.55pm
+const sendDailySummary = () => {
+    (0, exports.cronJob)("55 23 * * *", async () => {
+        //  console.log("Cron job running...");
+        try {
+            await calculateAndSendDailySummary();
+        }
+        catch (error) {
+            console.error("Error running job:", error);
+        }
     });
-  });
 };
-
-export { sendAppointmentReminders };
-
-
-*/
+exports.sendDailySummary = sendDailySummary;

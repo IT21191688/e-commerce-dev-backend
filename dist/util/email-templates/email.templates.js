@@ -147,8 +147,54 @@ const VerificationCodeEmail = (verificationCode) => {
     </body>
     </html>`;
 };
+const DailySummaryEmail = (totalOrderCount, totalERN) => {
+    return `<!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Daily Summary</title>
+        <style>
+            /* Add inline CSS styles here for better email client compatibility */
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #f5f5f5;
+                padding: 20px;
+            }
+            .container {
+                background-color: #ffffff;
+                padding: 20px;
+                border-radius: 5px;
+                box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            }
+            h1 {
+                color: #333333;
+            }
+            p {
+                font-size: 16px;
+                color: #555555;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h1>Daily Summary Report</h1>
+            <p>Good day!</p>
+            <hr>
+            <p>Here's the summary for today:</p>
+            <ul>
+                <li>Total Order Count: ${totalOrderCount}</li>
+                <li>Total ERN Value: ${totalERN}</li>
+            </ul>
+            <p>Have a great day ahead!</p>
+            <p>Best regards,</p>
+            <p>The Admin Team</p>
+        </div>
+    </body>
+    </html>`;
+};
 exports.default = {
     UserRegisteredEmail,
     OrderPlacedEmail,
     VerificationCodeEmail,
+    DailySummaryEmail,
 };

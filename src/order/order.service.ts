@@ -35,6 +35,23 @@ const deleteOrderById = async (orderId: string) => {
   return await Order.findByIdAndDelete(orderId);
 };
 
+const findOrdersByDate = (date: any) => {
+  const startOfDay = new Date(date);
+  startOfDay.setUTCHours(0, 0, 0, 0); // Set the time to the start of the day
+  const endOfDay = new Date(date);
+  endOfDay.setUTCHours(23, 59, 59, 999); // Set the time to the end of the day
+
+  return Order.find({
+    orderdate: {
+      $gte: startOfDay,
+      $lte: endOfDay,
+    },
+  })
+    .populate("products.productid")
+    .populate("userid")
+    .populate("paymentid");
+};
+
 export default {
   save,
   findOrdersByUserId,
@@ -42,4 +59,5 @@ export default {
   findAllOrders,
   editOrderDetails,
   deleteOrderById,
+  findOrdersByDate,
 };
